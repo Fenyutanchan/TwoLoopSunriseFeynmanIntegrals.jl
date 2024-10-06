@@ -17,7 +17,7 @@ function __general_form_script(
     #define N "$(num_do_loop)"
 
     CFunction F, InvDelta;
-    Symbol a1, a2, a3, m1, m2, m3, m12, m22, m32, D, invdelta;
+    Symbol a1, a2, a3, m1, m2, m3, D, invdelta;
 
     set Pos2ToN: 2,...,$(num_do_loop);
 
@@ -50,7 +50,7 @@ function __collinear_form_script(
     #define N "$(num_do_loop)"
 
     CFunction F, InvDelta;
-    Symbol a1, a2, a3, m1, m2, m3, m12, m22, m32, D, invdelta;
+    Symbol a1, a2, a3, m1, m2, m3, D, invdelta;
 
     set Pos2ToN: 2,...,$(num_do_loop);
 
@@ -58,7 +58,8 @@ function __collinear_form_script(
 
     Local I = $(integral);
 
-    #call CollinearTwoLoopRecursion
+    #call ColinearTwoLoopRecursion
+    #call OneLoopRecursion
     .sort
 
     #write "%E" I
