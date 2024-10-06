@@ -58,7 +58,7 @@ function __collinear_form_script(
 
     Local I = $(integral);
 
-    #call ColinearTwoLoopRecursion
+    #call CollinearTwoLoopRecursion
     #call OneLoopRecursion
     .sort
 
