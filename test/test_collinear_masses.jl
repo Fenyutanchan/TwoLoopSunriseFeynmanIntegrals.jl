@@ -1,3 +1,8 @@
+# Copyright (c) 2024 Wen-Di Li and Quan-feng WU <wuquanfeng@ihep.ac.cn>
+# 
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
 @testset "Collinear mass" begin
     MI_list = Set{Basic}()
     for _ ∈ 1:100

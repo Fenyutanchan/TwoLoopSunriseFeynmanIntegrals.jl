@@ -1,3 +1,8 @@
+# Copyright (c) 2024 Wen-Di Li and Quan-feng WU <wuquanfeng@ihep.ac.cn>
+# 
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
 MI_list = Set{Basic}()
 push!(MI_list, SymFunction("F")(1, m1^2))
 push!(MI_list, SymFunction("F")(1, m2^2))

@@ -1,3 +1,8 @@
+# Copyright (c) 2024 Wen-Di Li and Quan-feng WU <wuquanfeng@ihep.ac.cn>
+# 
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
 module TwoLoopSunriseFeynmanIntegrals
 
 using SymEngine

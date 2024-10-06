@@ -1,3 +1,8 @@
+# Copyright (c) 2024 Wen-Di Li and Quan-feng WU <wuquanfeng@ihep.ac.cn>
+# 
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
 function __run_FORM_file(
     script_file_path::String;
     multithreading_flag::Bool=false

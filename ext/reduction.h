@@ -1,3 +1,8 @@
+** Copyright (c) 2024 Wen-Di Li and Quan-feng WU <wuquanfeng@ihep.ac.cn>
+** 
+** This software is released under the MIT License.
+** https://opensource.org/licenses/MIT
+
 *** 这个函数可以直接做IBP但速度慢
 *** 第一个替换 a1>=2, a2,a3>=1 第二个替换 a2>=2, a1,a3>=1 第三个替换 a3>=2, a1,a2>=1 
 #procedure Recursion
