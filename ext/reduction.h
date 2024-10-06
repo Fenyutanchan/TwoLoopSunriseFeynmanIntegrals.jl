@@ -5,7 +5,7 @@
 
 
 *** 对一般情况的两圈Sunset图做IBP
-#procedure TwoLoopRecursion
+#procedure GeneralTwoLoopRecursion
 *** InvDelta都一样，且每次都做匹配速度比较慢，可以先提出来，而每次IBP中增加的幂次用Symbol invdelta标记，在函数最后在做替换
     id F(a1?,a2?,a3?,m1?,m2?,m3?) = F(a1,a2,a3,m1,m2,m3)*InvDelta(m1,m2,m3);
 
