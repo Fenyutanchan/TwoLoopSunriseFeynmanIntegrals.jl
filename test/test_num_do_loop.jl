@@ -4,10 +4,10 @@
 # https://opensource.org/licenses/MIT
 
 MI_list = Set{Basic}()
-push!(MI_list, SymFunction("F")(1, m1^2))
-push!(MI_list, SymFunction("F")(1, m2^2))
-push!(MI_list, SymFunction("F")(1, m3^2))
-push!(MI_list, SymFunction("F")(1, 1, 1, m1^2, m2^2, m3^2))
+push!(MI_list, SymFunction("F")(1, m1))
+push!(MI_list, SymFunction("F")(1, m2))
+push!(MI_list, SymFunction("F")(1, m3))
+push!(MI_list, SymFunction("F")(1, 1, 1, m1, m2, m3))
 
 @testset "Test num_do_loop = ν₁ + ν₂ + ν₃" begin
     tmp_dict = Dict{Tuple{Int, Int, Int}, Vector{Basic}}()
