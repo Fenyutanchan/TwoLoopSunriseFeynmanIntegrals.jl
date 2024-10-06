@@ -50,8 +50,8 @@
 #endprocedure
 
 
-*** 对Colinear情况做IBP
-#procedure ColinearTwoLoopRecursion
+*** 对Collinear情况做IBP
+#procedure CollinearTwoLoopRecursion
 *** a1,a2,a3>=1
 *** 因度规差一负号，所以与PPT中递推关系式也差一负号
     #do i = 1,'N'
