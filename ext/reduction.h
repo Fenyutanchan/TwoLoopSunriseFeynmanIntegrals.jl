@@ -32,7 +32,7 @@
 
 
 *** 这个函数中的IBP关系式与上面Recursion中一样，只需要把对应a1,a2,a3替换为循环变量
-#procedure TwoLoopRecursion
+#procedure GeneralTwoLoopRecursion
 *** InvDelta(m12,m22,m32)都一样，且每次都做匹配速度比较慢，可以先提出来，而每次IBP中增加的幂次用Symbol invdelta标记，在函数最后在做替换
     id F(a1?,a2?,a3?,m1?,m2?,m3?) = F(a1,a2,a3,m1^2,m2^2,m3^2)*InvDelta(m1,m2,m3);
     .sort
@@ -76,6 +76,31 @@
     id InvDelta(m1?, m2?, m3?) = 1;
     .sort
 #endprocedure
+
+
+
+#procedure CollinearTwoLoopRecursion
+*** a1,a2,a3>=1
+*** 因度规差一负号，所以与PPT中递推关系式也差一负号
+    #do i = 1,'N'
+        id F(a1?pos_, a2?pos_, a3?pos_, m1?, m2?, m3?) =
+            (  (m1*(D+2-a1-a2-a3)+m2*a3-m3*a2) *F(a1-1,a2,a3,m1,m2,m3)
+            +(m1*a3+m2*(D+2-a1-a2-a3)-m3*a1) *F(a1,a2-1,a3,m1,m2,m3)
+            +(m1*a2+m2*a1-m3*(D+2-a1-a2-a3)) *F(a1,a2,a3-1,m1,m2,m3)
+            )  /( 2*m1*m2*m3*(D+3-2*a1-2*a2-2*a3) );
+        .sort
+    #enddo
+
+    id F(a1?, a2?, 0, m1?, m2?, m3?) = F(a1, m1)*F(a2, m2);
+    id F(a1?, 0, a3?, m1?, m2?, m3?) = F(a1, m1)*F(a3, m3);
+    id F(0, a2?, a3?, m1?, m2?, m3?) = F(a2, m2)*F(a3, m3);
+    .sort
+
+    repeat;
+        id F(a1?Pos2ToN, m1?) = (D-2*(a1-1)) *F(a1-1,m1) /(2*(a1-1)*m1^2);
+    endrepeat;
+#endprocedure
+
 
 
 *** 将单圈F(a1,a2,0)变为F(a1,m1)*F(a2,m2)，并利用单传播子IBP
