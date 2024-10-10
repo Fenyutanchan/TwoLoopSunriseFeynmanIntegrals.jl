@@ -58,7 +58,9 @@ function __collinear_form_script(
 
     Local I = $(integral);
 
-    #call CollinearTwoLoopRecursion
+*** 在调用时需要将函数翻译成F(a1,a2,a3,m1,m2,m1+m2)的形式
+    #call OneEqZeroCollinearTwoLoopRecursion
+    #call NonEqZeroCollinearTwoLoopRecursion
     #call OneLoopRecursion
     .sort
 
