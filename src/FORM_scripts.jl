@@ -24,7 +24,7 @@ function __general_form_script(
     Off Statistics;
 
     Local I = $(integral);
-
+*** 对所有非Collinear情况都适用，允许其中一个或两个传播子质量为0
     #call GeneralTwoLoopRecursion
     #call OneLoopRecursion
     .sort
@@ -58,7 +58,12 @@ function __collinear_form_script(
 
     Local I = $(integral);
 
-    #call CollinearTwoLoopRecursion
+*** 两个Collinear情况不冲突，可同时调用，只需要判断是否是Collinear情况
+*** 其中一个质量为0另外两个质量相等Collinear情况
+    #call OneEqZeroCollinearTwoLoopRecursion
+
+*** 三个质量均不为0Collinear情况，在调用时需要将函数翻译成F(a1,a2,a3,m1,m2,m1+m2)的形式
+    #call NonEqZeroCollinearTwoLoopRecursion
     #call OneLoopRecursion
     .sort
 
