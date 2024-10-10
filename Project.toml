@@ -8,7 +8,9 @@ FORM_jll = "f4eadb04-70c1-5b36-8221-785c072cda07"
 SymEngine = "123dc426-2d89-5057-bbad-38513e3affd8"
 
 [extras]
+ArgParse = "c7e460c6-2fb9-53a9-8c5b-16f535851c63"
+JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Test"]
+test = ["ArgParse", "JLD2", "Test"]
