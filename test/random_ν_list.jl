@@ -1,20 +1,18 @@
-# Copyright (c) 2024 Wen-Di Li and Quan-feng WU <wuquanfeng@ihep.ac.cn>
+# Copyright (c) 2024 Wen-Di Li <liwendi23@mails.ucas.ac.cn> and Quan-feng WU <wuquanfeng@ihep.ac.cn>
 # 
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
 
-using JLD2
-
 function generate_random_ν_list!(
     max_ν::Int=4,
-    exisiting_ν_list::Vector{Vector{Int}}=Vector{Vector{Int}}()
+    exisiting_ν_lists::Vector{Vector{Int}}=Vector{Vector{Int}}()
 )
     ν_list = rand(1:max_ν, 3)
-    while ν_list ∈ exisiting_ν_list
+    while ν_list ∈ exisiting_ν_lists
         ν_list = rand(1:max_ν, 3)
     end
 
-    push!(exisiting_ν_list, ν_list)
+    push!(exisiting_ν_lists, ν_list)
 
     return ν_list
 end
@@ -49,23 +47,29 @@ function main(args=ARGS)
       )
     """
 
-    exisiting_ν_list = Vector{Vector{Int}}()
-    num = min(parsed_args["n"], parsed_args["max-ν"]^3)
-    for _ ∈ 1:num
-        ν_list = generate_random_ν_list!(
-            parsed_args["max-ν"],
-            exisiting_ν_list
-        )
+    ν_lists = Vector{Vector{Int}}()
+    total_num = parsed_args["max-ν"]^3
+    # total_num = (parsed_args["max-ν"] + 1)^3
+    num = min(parsed_args["n"], total_num)
+    ν_max = parsed_args["max-ν"]
+
+    all_ν_lists = (collect ∘ multiset_permutations)(vcat(1:ν_max, 1:ν_max, 1:ν_max), 3)
+    # all_ν_lists = (collect ∘ multiset_permutations)(vcat(0:ν_max, 0:ν_max, 0:ν_max), 3)
+    while num > 0
+        index = rand(1:total_num)
+        push!(ν_lists, popat!(all_ν_lists, index))
+        total_num -= 1
+        num -= 1
     end
 
     jldopen(parsed_args["output-file"], "w+") do file
-        file["ν_list"] = exisiting_ν_list
+        file["ν_lists"] = ν_lists
     end
 end
 
-try
+if @isdefined test_parsed_args
     main(test_parsed_args["others"])
-catch
+else
     rethrow()
     main()
 end

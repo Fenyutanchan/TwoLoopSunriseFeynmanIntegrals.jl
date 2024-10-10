@@ -1,3 +1,8 @@
+# Copyright (c) 2024 Wen-Di Li <liwendi23@mails.ucas.ac.cn> and Quan-feng WU <wuquanfeng@ihep.ac.cn>
+# 
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
 function generate_MMA_script(
     q₁, q₂,
     ν₁, ν₂, ν₃,
