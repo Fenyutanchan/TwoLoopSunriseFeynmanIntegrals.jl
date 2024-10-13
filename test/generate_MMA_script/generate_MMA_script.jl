@@ -45,8 +45,6 @@ function generate_MMA_comparison_script(
     juliaResult = Import["$(julia_result_script_path)"];
     MMAResult = Import["$(MMA_result_script_path)"];
     difference = FullSimplify[juliaResult - MMAResult];
-    Print[juliaResult];
-    Print[MMAResult];
 
     If[difference === 0,
         Print["Test passed!"];

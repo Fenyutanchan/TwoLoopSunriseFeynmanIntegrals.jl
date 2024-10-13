@@ -31,7 +31,8 @@ function main(args=ARGS)
 
     @vars q1 q2 m1 m2 m3
 
-    run_MMA_script_path = joinpath(parsed_args["output-directory"], "run_MMA_general_case_script.sh")
+    run_MMA_reduction_script_path = joinpath(parsed_args["output-directory"], "run_MMA_general_case_reduction_script.sh")
+    run_MMA_comparison_script_path = joinpath(parsed_args["output-directory"], "run_MMA_general_case_comparison_script.sh")
     ν_lists = load(parsed_args["ν-lists"], "ν_lists")
 
     for ν_list ∈ ν_lists
@@ -54,8 +55,11 @@ function main(args=ARGS)
             MMA_result_path,
             MMA_comparison_script_path
         )
-        open(run_MMA_script_path, "a+") do io
+        open(run_MMA_reduction_script_path, "a+") do io
             write(io, "wolframscript -file $(basename(MMA_reduction_script_path))\n")
+            # write(io, "wolframscript -file $(basename(MMA_comparison_script_path))\n")
+        end
+        open(run_MMA_comparison_script_path, "a+") do io
             write(io, "wolframscript -file $(basename(MMA_comparison_script_path))\n")
         end
     end
