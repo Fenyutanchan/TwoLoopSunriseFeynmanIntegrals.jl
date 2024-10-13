@@ -3,12 +3,12 @@
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
 
-function generate_MMA_script(
+function generate_MMA_reduction_script(
     q₁, q₂,
     ν₁, ν₂, ν₃,
     m₁, m₂, m₃,
-    MMA_script_path,
-    output_path
+    MMA_reduction_script_path,
+    MMA_result_path
 )
     script_content = """
     Import @ FileNameJoin[{"ampred-main", "AmpRed", "AmpRed.m"}];
@@ -30,8 +30,34 @@ function generate_MMA_script(
     };
     rslt = Expand[rslt];
 
-    Export["$(output_path)", rslt, "Text"];
+    Export["$(MMA_result_path)", rslt];
     """
 
-    write(MMA_script_path, script_content)
+    write(MMA_reduction_script_path, script_content)
+end
+
+function generate_MMA_comparison_script(
+    julia_result_script_path,
+    MMA_result_script_path,
+    MMA_comparison_script_path
+)
+    script_content = """
+    juliaResult = Import["$(julia_result_script_path)"];
+    MMAResult = Import["$(MMA_result_script_path)"];
+    difference = FullSimplify[juliaResult - MMAResult];
+    Print[juliaResult];
+    Print[MMAResult];
+
+    If[difference === 0,
+        Print["Test passed!"];
+        Exit[0],
+        Print["Test failed for $(julia_result_script_path) and $(MMA_result_script_path)!"];
+        Print["The julia result is " <> ToString[juliaResult, InputForm]];
+        Print["The Mathematica result is " <> ToString[MMAResult, InputForm]];
+        Print["The difference is: " <> ToString[difference, InputForm]];
+        Exit[1]
+    ];
+    """
+
+    write(MMA_comparison_script_path, script_content)
 end

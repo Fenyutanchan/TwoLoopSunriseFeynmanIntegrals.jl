@@ -27,7 +27,6 @@ type_script_dict = Dict{String, String}(
     "random-ν-list" => "random_ν_list.jl",
     "julia-general-case" => "julia_general_case.jl",
     "MMA-general-case-script" => "generate_MMA_script/MMA_general_case_script.jl",
-    "check-general-case" => "check_general_case.jl"
 )
 
 if haskey(type_script_dict, test_parsed_args["test-type"])

@@ -36,18 +36,27 @@ function main(args=ARGS)
 
     for ν_list ∈ ν_lists
         ν₁, ν₂, ν₃ = ν_list
-        MMA_script_path = joinpath(parsed_args["output-directory"], "MMA_general_case_script_$(ν₁)-$(ν₂)-$(ν₃).wls")
-        output_path = joinpath("MMA_general_case_output_$(ν₁)-$(ν₂)-$(ν₃).out")
+        MMA_reduction_script_path = joinpath(parsed_args["output-directory"], "MMA_general_case_script_$(ν₁)-$(ν₂)-$(ν₃).wls")
+        MMA_comparison_script_path = joinpath(parsed_args["output-directory"], "MMA_general_case_comparison_script_$(ν₁)-$(ν₂)-$(ν₃).wls")
 
-        generate_MMA_script(
+        MMA_result_path = "MMA_general_case_output_$(ν₁)-$(ν₂)-$(ν₃).wls"
+        julia_result_path = "julia_general_case_output_$(ν₁)-$(ν₂)-$(ν₃).wls"
+
+        generate_MMA_reduction_script(
             q1, q2,
             ν₁, ν₂, ν₃,
             m1, m2, m3,
-            MMA_script_path,
-            output_path
+            MMA_reduction_script_path,
+            MMA_result_path
+        )
+        generate_MMA_comparison_script(
+            julia_result_path,
+            MMA_result_path,
+            MMA_comparison_script_path
         )
         open(run_MMA_script_path, "a+") do io
-            write(io, "wolframscript -file $(basename(MMA_script_path))\n")
+            write(io, "wolframscript -file $(basename(MMA_reduction_script_path))\n")
+            write(io, "wolframscript -file $(basename(MMA_comparison_script_path))\n")
         end
     end
 end

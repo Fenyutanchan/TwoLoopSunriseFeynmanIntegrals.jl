@@ -34,7 +34,7 @@ jobs:
       #       --max-ν=5
       #       -o=${{ github.WORKSPACE }}/random_ν_list.jld2
       - name: Generate ν list
-        run: julia --project -e "using Pkg; Pkg.test(test_args=[\"--test-type=random-ν-list\", \"--\", \"-n=1\", \"--max-ν=5\", \"-o=${{ github.WORKSPACE }}/random_ν_list.jld2\"])"
+        run: julia --project -e "using Pkg; Pkg.test(test_args=[\"--test-type=random-ν-list\", \"--\", \"-n=100\", \"--max-ν=5\", \"-o=${{ github.WORKSPACE }}/random_ν_list.jld2\"])"
 
       - uses: actions/upload-artifact@v4
         with:
@@ -62,11 +62,13 @@ jobs:
       #       --ν-lists=${{ github.WORKSPACE }}/random_ν_list.jld2
       #       -o=${{ github.WORKSPACE }}/julia_general_case_result.jld2
       - name: Run for general case
-        run: julia --project -e "using Pkg; Pkg.test(test_args=[\"--test-type=julia-general-case\", \"--\", \"--ν-lists=${{ github.WORKSPACE }}/random_ν_list.jld2\", \"-o=${{ github.WORKSPACE }}/julia_general_case_result.jld2\"])"
+        run: julia --project -e "using Pkg; Pkg.test(test_args=[\"--test-type=julia-general-case\", \"--\", \"--ν-lists=${{ github.WORKSPACE }}/random_ν_list.jld2\", \"-o=${{ github.WORKSPACE }}\"])"
+      - name: Make result artifact
+        run: tar -czvf julia_general_case_result.tar.gz *.wls
       - uses: actions/upload-artifact@v4
         with:
           name: julia_general_case_result
-          path: ${{ github.WORKSPACE }}/julia_general_case_result.jld2
+          path: ${{ github.WORKSPACE }}/julia_general_case_result.tar.gz
 
   MMA_general_case_script:
     runs-on: ubuntu-latest
@@ -112,7 +114,7 @@ jobs:
   
   run_MMA_script:
     runs-on: ubuntu-latest
-    needs: [MMA_general_case_script, prepare_AmpRed]
+    needs: [MMA_general_case_script, julia_general_case, prepare_AmpRed]
     container:
       image: fenyutanchan/fytcmma:14.1.0
       credentials:
@@ -125,38 +127,41 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: MMA_general_case_script
+      - uses: actions/download-artifact@v4
+        with:
+          name: julia_general_case_result
       - name: Run Script
         run: |
           tar -zxvf ampred-main.tar.gz
           tar -zxvf MMA_general_case_script.tar.gz
+          tar -zxvf julia_general_case_result.tar.gz
           /bin/bash /root/magic.sh > /dev/null
           /bin/bash run_MMA_general_case_script.sh
-          tar -czvf MMA_general_case_result.tar.gz MMA_general_case_output_*-*-*.out
       
-      - name: Upload Result
-        uses: actions/upload-artifact@v4
-        with:
-          name: MMA_general_case_result
-          path: MMA_general_case_result.tar.gz
+      # - name: Upload Result
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: MMA_general_case_result
+      #     path: MMA_general_case_result.tar.gz
 
-  check_results:
-    runs-on: ubuntu-latest
-    needs: [julia_general_case, run_MMA_script]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: julia-actions/setup-julia@v2
-      - uses: julia-actions/cache@v2
-      - uses: julia-actions/julia-buildpkg@v1
-      - uses: actions/download-artifact@v4
-        with:
-          name: random_ν_list
-      - uses: actions/download-artifact@v4
-        with:
-          name: julia_general_case_result
-      - uses: actions/download-artifact@v4
-        with:
-          name: MMA_general_case_result
-      - name: Extract MMA result
-        run: tar -zxvf MMA_general_case_result.tar.gz
-      - name: Check result
-        run: julia --project -e "using Pkg; Pkg.test(test_args=[\"--test-type=check-general-case\", \"--\", \"--ν-lists=${{ github.WORKSPACE }}/random_ν_list.jld2\", \"--julia-results=${{ github.WORKSPACE }}/julia_general_case_result.jld2\", \"--MMA-results=${{ github.WORKSPACE }}\"])"
+  # check_results:
+  #   runs-on: ubuntu-latest
+  #   needs: [julia_general_case, run_MMA_script]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: julia-actions/setup-julia@v2
+  #     - uses: julia-actions/cache@v2
+  #     - uses: julia-actions/julia-buildpkg@v1
+  #     - uses: actions/download-artifact@v4
+  #       with:
+  #         name: random_ν_list
+  #     - uses: actions/download-artifact@v4
+  #       with:
+  #         name: julia_general_case_result
+  #     - uses: actions/download-artifact@v4
+  #       with:
+  #         name: MMA_general_case_result
+  #     - name: Extract MMA result
+  #       run: tar -zxvf MMA_general_case_result.tar.gz
+  #     - name: Check result
+  #       run: julia --project -e "using Pkg; Pkg.test(test_args=[\"--test-type=check-general-case\", \"--\", \"--ν-lists=${{ github.WORKSPACE }}/random_ν_list.jld2\", \"--julia-results=${{ github.WORKSPACE }}/julia_general_case_result.jld2\", \"--MMA-results=${{ github.WORKSPACE }}\"])"

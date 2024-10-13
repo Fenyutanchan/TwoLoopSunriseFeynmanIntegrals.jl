@@ -10,10 +10,10 @@ function main(args=ARGS)
             help = "The JLD2 file containing the ν lists."
             arg_type = String
             default = "random_ν_list.jld2"
-        "--output", "-o"
-            help = "The output file."
+        "--output-directory", "-o"
+            help = "The output directory."
             arg_type = String
-            default = "julia_general_case.jld2"
+            default = @__DIR__
     end
     parsed_args = parse_args(args, s)
 
@@ -28,7 +28,7 @@ function main(args=ARGS)
     """
 
     ν_lists = load(parsed_args["ν-lists"], "ν_lists")
-    results = Vector{Basic}(undef, length(ν_lists))
+    # results = Vector{Basic}(undef, length(ν_lists))
 
     @vars m1 m2 m3
 
@@ -47,7 +47,7 @@ function main(args=ARGS)
 
     error_dict = Dict{Tuple{Int, Int, Int}, Vector{Basic}}()
 
-    @testset for (ii, ν_list) ∈ enumerate(ν_lists)
+    @testset for ν_list ∈ ν_lists
         ν₁, ν₂, ν₃ = ν_list
 
         result = TSI_reduction(ν₁, ν₂, ν₃, m1, m2, m3)
@@ -61,7 +61,15 @@ function main(args=ARGS)
             continue
         end
 
-        results[ii] = (expand ∘ subs)(result, replace_dict)
+        result = (expand ∘ subs)(result, replace_dict)
+        open(
+            joinpath(
+                parsed_args["output-directory"],
+                "julia_general_case_output_$(ν₁)-$(ν₂)-$(ν₃).wls"
+            ), "w"
+        ) do io
+            write(io, string(result))
+        end
 
         @test true
     end
@@ -71,9 +79,9 @@ function main(args=ARGS)
             println(k, " => ", v)
         end
 
-    jldopen(parsed_args["output"], "w+") do file
-        file["results"] = map(string, results)
-    end
+    # jldopen(parsed_args["output"], "w+") do file
+    #     file["results"] = map(string, results)
+    # end
 end
 
 if @isdefined test_parsed_args
