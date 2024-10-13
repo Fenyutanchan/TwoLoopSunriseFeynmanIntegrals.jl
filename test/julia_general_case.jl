@@ -38,12 +38,19 @@ function main(args=ARGS)
     push!(MI_list, SymFunction("F")(1, m3))
     push!(MI_list, SymFunction("F")(1, 1, 1, m1, m2, m3))
 
+    replace_dict = Dict{Basic, Basic}(
+        SymFunction("F")(1, m1) => Basic("T1"),
+        SymFunction("F")(1, m2) => Basic("T2"),
+        SymFunction("F")(1, m3) => Basic("T3"),
+        SymFunction("F")(1, 1, 1, m1, m2, m3) => Basic("T123")
+    )
+
     error_dict = Dict{Tuple{Int, Int, Int}, Vector{Basic}}()
 
     @testset for (ii, ν_list) ∈ enumerate(ν_lists)
         ν₁, ν₂, ν₃ = ν_list
 
-        results[ii] = result = TSI_reduction(ν₁, ν₂, ν₃, m1, m2, m3)
+        result = TSI_reduction(ν₁, ν₂, ν₃, m1, m2, m3)
         this_MI_list = function_symbols(result)
 
         MI_diff = setdiff(this_MI_list, MI_list)
@@ -54,6 +61,8 @@ function main(args=ARGS)
             continue
         end
 
+        results[ii] = (expand ∘ subs)(result, replace_dict)
+
         @test true
     end
 
@@ -63,7 +72,7 @@ function main(args=ARGS)
         end
 
     jldopen(parsed_args["output"], "w+") do file
-        file["results"] = results
+        file["results"] = map(string, results)
     end
 end
 

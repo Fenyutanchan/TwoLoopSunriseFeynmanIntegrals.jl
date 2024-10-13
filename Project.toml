@@ -1,6 +1,6 @@
 name = "TwoLoopSunriseFeynmanIntegrals"
 uuid = "b98f81b4-cfb0-40f2-a783-f83e48215178"
-authors = ["Wen-Di Li", "Quan-feng WU <wuquanfeng@ihep.ac.cn>"]
+authors = ["Wen-Di Li <liwendi23@mails.ucas.ac.cn>", "Quan-feng WU <wuquanfeng@ihep.ac.cn>"]
 version = "0.1.0"
 
 [deps]

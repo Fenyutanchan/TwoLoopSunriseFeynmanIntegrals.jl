@@ -19,6 +19,16 @@ function main(args=ARGS)
     end
     parsed_args = parse_args(args, s)
 
+    @info """
+    Generating MMA scripts with arguments:
+      $(
+        join(
+            ["$k: $v" for (k, v) ∈ parsed_args],
+            "\n  "
+        )
+      )
+    """
+
     @vars q1 q2 m1 m2 m3
 
     run_MMA_script_path = joinpath(parsed_args["output-directory"], "run_MMA_general_case_script.sh")
@@ -27,7 +37,7 @@ function main(args=ARGS)
     for ν_list ∈ ν_lists
         ν₁, ν₂, ν₃ = ν_list
         MMA_script_path = joinpath(parsed_args["output-directory"], "MMA_general_case_script_$(ν₁)-$(ν₂)-$(ν₃).wls")
-        output_path = joinpath("MMA_general_case_output_$(ν₁)-$(ν₂)-$(ν₃).txt")
+        output_path = joinpath("MMA_general_case_output_$(ν₁)-$(ν₂)-$(ν₃).out")
 
         generate_MMA_script(
             q1, q2,

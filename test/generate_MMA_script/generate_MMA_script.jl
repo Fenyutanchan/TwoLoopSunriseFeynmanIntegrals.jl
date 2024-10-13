@@ -21,9 +21,16 @@ function generate_MMA_script(
             {$(q₁) + $(q₂), $(m₃), $(ν₃)}
         }
     ];
-    rslt = AlphaToFeynman @ AlphaReduce @ AlphaParametrize[FI, Method->1];
+    rslt = AlphaToFeynman @ AlphaReduce @ AlphaParametrize[FI, Method -> 1];
+    rslt = rslt /. {
+        TensorInt[{LoopMomentum[1], LoopMomentum[2]}, {{Momentum[LoopMomentum[1]], m1, 1}, {Momentum[LoopMomentum[2]], m2, 1}}, {}, 1, Dimensions -> D] -> T1 * T2,
+        TensorInt[{LoopMomentum[1], LoopMomentum[2]}, {{Momentum[LoopMomentum[1]], m1, 1}, {Momentum[LoopMomentum[1]] + Momentum[LoopMomentum[2]], m3, 1}}, {}, 1, Dimensions -> D] -> T1 * T3,
+        TensorInt[{LoopMomentum[1], LoopMomentum[2]}, {{Momentum[LoopMomentum[2]], m2, 1}, {Momentum[LoopMomentum[1]] + Momentum[LoopMomentum[2]], m3, 1}}, {}, 1, Dimensions -> D] -> T2 * T3,
+        TensorInt[{LoopMomentum[1], LoopMomentum[2]}, {{Momentum[LoopMomentum[1]], m1, 1}, {Momentum[LoopMomentum[2]], m2, 1}, {Momentum[LoopMomentum[1]] + Momentum[LoopMomentum[2]], m3, 1}}, {}, 1, Dimensions -> D] -> T123
+    };
+    rslt = Expand[rslt];
 
-    Export["$(output_path)", rslt];
+    Export["$(output_path)", rslt, "Text"];
     """
 
     write(MMA_script_path, script_content)
