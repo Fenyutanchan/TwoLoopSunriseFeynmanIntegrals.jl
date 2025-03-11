@@ -1,0 +1,13 @@
+\newcommand{\email}[1]{\footnote{E-mail: \href{mailto:#1}{#1}}}
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\etc}{\textit{etc.}}
+\newcommand{\ie}{\textit{i.e.}}
+\newcommand{\license}{\footnote{This note © 2025 by \href{https://github.com/Fenyutanchan}{Quan-feng WU} is licensed under \href{https://creativecommons.org/licenses/by-nc-/4.0/}{CC BY-NC-ND 4.0}. \faCreativeCommons \faCreativeCommonsBy \faCreativeCommonsNc \faCreativeCommonsNd}}
+
+\DeclareDocumentCommand{\TBA}{o}{\IfNoValueTF{#1}{{\color{red} TBA.}}{{\color{red} TBA: #1}}}
+\DeclareDocumentCommand{\TBD}{o}{\IfNoValueTF{#1}{{\color{red} TBD.}}{{\color{red} TBD: #1}}}
+
+\DeclareDocumentCommand{\githubsrc}{o}{\IfNoValueTF{#1}{\url{https://github.com/Fenyutanchan/TwoLoopSunriseFeynmanIntegrals.jl.git}}{\href{https://github.com/Fenyutanchan/TwoLoopSunriseFeynmanIntegrals.jl/blob/main/#1}{\texttt{#1}}}}
+
+\newcommand{\notsurecolor}{green!50!black!100!}
+\newcommand{\notsure}[1]{{\color{\notsurecolor{}} #1}}

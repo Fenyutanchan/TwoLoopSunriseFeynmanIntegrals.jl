@@ -1,0 +1,329 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+% \usepackage{amssymb}
+\usepackage{authblk}
+\usepackage[sorting=none, style=numeric-comp]{biblatex}
+    \addbibresource{from_inspirehep.bib}
+    \addbibresource{others.bib}
+\usepackage{fontawesome5}
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[
+    colorlinks=true,
+    anchorcolor=violet,
+    citecolor=orange,
+    linkcolor=blue,
+    urlcolor=magenta
+]{hyperref}
+% \usepackage[color=violet]{attachfile2}
+% \usepackage{mathrsfs}
+% \usepackage{mathtools}
+\usepackage{pgfplots}
+    \pgfplotsset{compat=1.18}
+\usepackage{physics}
+\usepackage{slashed}
+\usepackage{subcaption}
+\usepackage{tensor}
+\usepackage[compat=1.1.0]{tikz-feynhand}
+    % \tikzset{graviton/.style={decorate, decoration={snake, amplitude=.4mm, segment length=1.5mm, pre length=.5mm, post length=.5mm}, double}}
+
+\input{LaTeX-commands}
+\input{math-commands}
+
+\title{Note of \texttt{TwoLoopSunriseFeynmanIntegrals.jl}}
+
+\author{Wen-Di Li\email{TBD}}
+\affil{
+    School of Fundamental Physics and Mathematical Sciences, \\
+    Hangzhou Institute for Advanced Study, \\
+    University of Chinese Academy of Sciences, \\
+    Hangzhou 310024, CHINA
+}
+
+\author{Quan-feng WU\email{wuquanfeng@ihep.ac.cn}}
+\affil{
+    Institute of High Energy Physics, \\
+    Chinese Academy of Sciences, \\
+    Beijing 100049, CHINA
+}
+
+\date{\today\license}
+
+\begin{document}
+    \maketitle
+
+    \begin{abstract}
+        \TBA{}
+    \end{abstract}
+    \noindent\hrulefill
+
+    \tableofcontents
+    \clearpage
+
+    \section{Introduction}
+
+        We provide a \textsc{Julia}\footnote{\url{https://julialang.org}} package \texttt{TwoLoopSunriseFeynmanIntegrals.jl}\footnote{\githubsrc} for two-loop sunrise Feynman integrals\footnote{We suggest Refs.~\cite{Smirnov:2012gma, Weinzierl:2022eaz} for pedagogical introduction to Feynman integrals.}, which reads \cite[Eq.~(2.56)]{Weinzierl:2022eaz}\footnote{For simplicity, the prefactor $\ee^{2 \varepsilon \eulergamma} \qty(\mu^2)^{\nu - d}$ with $\nu \equiv \nu_1 + \nu_2 + \nu_3$ for the \emph{modified minimal subtraction scheme} is omitted here.}
+        \begin{equation}
+            \TSI{\nu_1, \nu_2, \nu_3}[d, m_1, m_2, m_3] := \int \frac{\tildedp{q_1} ~ \tildedp{q_2}}{\qmOne* \qmTwo* \qmThree*},
+        \end{equation}
+        where $d = 4 - 2 \varepsilon$ is the spacetime dimension, $m_i$'s are the masses, $\nu_i$'s are the exponents, and $q_i$ are the loop momenta ($q_{12} \equiv q_1 + q_2$).
+        In this note, we take the loop momentum measure as
+        \begin{equation}
+            \tildedp{q} := \frac{\dd[d]{q}}{\ii \pi^{d/2}}.
+        \end{equation}
+        One can easily verify that that this integral is invariant under the permutation of $\qty(m_1, \nu_1)$, $\qty(m_2, \nu_2)$, and $\qty(m_3, \nu_3)$, \eg,
+        \begin{equation}
+            \TSI{\nu_1 \nu_2 \nu_3}[d, m_1, m_2, m_3] \equiv \TSI{\nu_2 \nu_3 \nu_1}[d, m_2, m_3, m_1].
+        \end{equation}
+        If all masses vanish, the integral vanishes as
+        \begin{equation}
+            \TSI{\nu_1 \nu_2 \nu_3}[d, 0, 0, 0] \equiv 0
+            \label{eq:all-masses-vanishing}
+        \end{equation}
+        since the definition of the Feynman integral in the dimensional regularization \cite[Sec.~2.4.2]{Weinzierl:2022eaz}.
+
+        This note is organized as follows:
+        In Sec.~\ref{sec:reduction}, we reduce the two-loop sunrise Feynman integrals to the master integrals (MIs) via integration-by-part (IBP) techniques.
+        In Sec.~\ref{sec:master-integral}, the MIs are evaluated and expanded into $\varepsilon$-series.
+        In Sec.~\ref{sec:implementation}, we introduce the implementation of the package.
+        Finally, we conclude in Sec.~\ref{sec:conclusion}.
+    
+    \section{Integration-by-Part Reduction}\label{sec:reduction}
+
+        In this section, we consider the integration-by-part (IBP) reduction for the two-loop sunrise Feynman integrals.
+        The IBP reduction starts from the fact that \cite[Eq.~(6.2)]{Weinzierl:2022eaz}
+        \begin{equation}
+            \int \tildedp{q} ~ \pdv{q^\mu} \qty[k^\mu \cdots] \equiv 0,
+        \end{equation}
+        where $k$ is an arbitrary momentum.
+        We also have
+        \begin{align}
+            \pdv{q^\mu} \frac{1}{\denominator{q}[m][\nu]} & = \frac{2 \nu q_\mu}{\denominator{q}[m][\nu + 1]}, \\
+            \pdv{q_1^\mu} \frac{1}{\qmThree*} & = \frac{2 \nu_3 \qty(q_{12})_\mu}{\qmThree[\nu_3 + 1]}.
+        \end{align}
+        Therefore,
+        \begin{equation}
+            \begin{aligned}
+                0 & = & & \int \tildedp{q_1} ~ \tildedp{q_2} ~ \pdv{q_1^\mu} \frac{q_1^\mu}{\qmOne* \qmTwo* \qmThree*} \\
+                & = & & \qty(d - 2 \nu_1 - \nu_3) \TSI{\nu_1 \nu_2 \nu_3} + 2 \nu_1 m_1^2 \TSI{\nu_1 + 1, \nu_2, \nu_3} - \nu_3 \qty(\TSI{\nu_1 - 1, \nu_2, \nu_3 + 1} - \TSI{\nu_1, \nu_2 - 1, \nu_3 + 1}) \\
+                & & & {} + \nu_3 \qty(m_1^2 - m_2^2 + m_3^2) \TSI{\nu_1, \nu_2, \nu_3 + 1}.
+            \end{aligned}
+        \end{equation}
+        Or equivalently,
+        \begin{equation}
+            \begin{aligned}
+                -2 \nu_1 m_1^2 \TSI{\nu_1 + 1, \nu_2, \nu_3} - \nu_3 \qty(m_1^2 - m_2^2 + m_3^2) \TSI{\nu_1, \nu_2, \nu_3 + 1} & = & & \qty(d - 2 \nu_1 - \nu_3) \TSI{\nu_1 \nu_2 \nu_3} \\
+                & & & {} - \nu_3 \qty(\TSI{\nu_1 - 1, \nu_2, \nu_3 + 1} - \TSI{\nu_1, \nu_2 - 1, \nu_3 + 1}). \\
+            \end{aligned}
+            \label{eq:IBP-1}
+        \end{equation}
+        Similarly, we have
+        \begin{equation}
+            \begin{aligned}
+                -2 \nu_2 m_2^2 \TSI{\nu_1, \nu_2 + 1, \nu_3} - \nu_3 \qty(m_2^2 - m_1^2 + m_3^2) \TSI{\nu_1, \nu_2, \nu_3 + 1} & = & & \qty(d - 2 \nu_2 - \nu_3) \TSI{\nu_1 \nu_2 \nu_3} \\
+                & & & {} - \nu_3 \qty(\TSI{\nu_1, \nu_2 - 1, \nu_3 + 1} - \TSI{\nu_1 - 1, \nu_2, \nu_3 + 1}). \\
+            \end{aligned}
+            \label{eq:IBP-2}
+        \end{equation}
+        Now consider
+        \begin{equation}
+            \begin{aligned}
+                0 & = & & \int \tildedp{q_1} ~ \tildedp{q_2} ~ \pdv{q_2^\mu} \frac{q_1^\mu}{\qmOne* \qmTwo* \qmThree*} \\
+                & = & & \qty(\nu_2 - \nu_3) \TSI{\nu_1 \nu_2 \nu_3} + \nu_2 \TSI{\nu_1 - 1, \nu_2 + 1, \nu_3} - \nu_2 \TSI{\nu_1, \nu_2 + 1, \nu_3 - 1} + \nu_2 \qty(-m_1^2 - m_2^2 + m_3^2) \TSI{\nu_1, \nu_2 + 1, \nu_3} \\
+                & & & {} + \nu_3 \TSI{\nu_1, \nu_2 - 1, \nu_3 + 1} - \nu_3 \TSI{\nu_1 - 1, \nu_2, \nu_3 + 1} + \nu_3 \qty(m_1^2 - m_2^2 + m_3^2) \TSI{\nu_1, \nu_2, \nu_3 + 1},
+            \end{aligned}
+        \end{equation}
+        or equivalently,
+        \begin{equation}
+            \begin{aligned}
+                & & & \nu_2 \qty(m_1^2 + m_2^2 - m_3^2) \TSI{\nu_1, \nu_2 + 1, \nu_3} - \nu_3 \qty(m_1^2 - m_2^2 + m_3^2) \TSI{\nu_1, \nu_2, \nu_3 + 1} \\
+                & = & & \qty(\nu_2 - \nu_3) \TSI{\nu_1 \nu_2 \nu_3} + \nu_2 \qty(\TSI{\nu_1 - 1, \nu_2 + 1, \nu_3} - \TSI{\nu_1, \nu_2 + 1, \nu_3 - 1}) + \nu_3 \qty(\TSI{\nu_1, \nu_2 - 1, \nu_3 + 1} - \TSI{\nu_1 - 1, \nu_2, \nu_3 + 1}).
+            \end{aligned}
+            \label{eq:IBP-3}
+        \end{equation}
+        Combining Eqs.~\eqref{eq:IBP-1}, \eqref{eq:IBP-2}, and \eqref{eq:IBP-3}, we have
+        \begin{equation}
+            \begin{aligned}
+                & & & \mqty*(
+                    -2 \nu_1 m_1^2 & 0 & -\nu_3 \qty(m_1^2 - m_2^2 + m_3^2) \\
+                    0 & -2 \nu_2 m_2^2 & -\nu_3 \qty(m_2^2 - m_1^2 + m_3^2) \\
+                    0 & \nu_2 \qty(m_1^2 + m_2^2 - m_3^2) & -\nu_3 \qty(m_1^2 - m_2^2 + m_3^2)
+                ) \mqty*(\TSI{\nu_1 + 1, \nu_2, \nu_3} \\ \TSI{\nu_1, \nu_2 + 1, \nu_3} \\ \TSI{\nu_1, \nu_2, \nu_3 + 1}) \\
+                & = & & \mqty*(
+                    d - 2 \nu_1 - \nu_3 & 0 & \nu_3 & 0 & -\nu_3 \\
+                    d - 2 \nu_2 - \nu_3 & 0 & -\nu_3 & 0 & \nu_3 \\
+                    \nu_2 - \nu_3 & -\nu_2 & \nu_3 & \nu_2 & -\nu_3
+                ) \mqty*(
+                    \TSI{\nu_1 \nu_2 \nu_3} \\
+                    \TSI{\nu_1, \nu_2 + 1, \nu_3 - 1} \\ \TSI{\nu_1, \nu_2 - 1, \nu_3 + 1} \\
+                    \TSI{\nu_1 - 1, \nu_2 + 1, \nu_3} \\ \TSI{\nu_1 - 1, \nu_2, \nu_3 + 1}
+                ).
+            \end{aligned}
+        \end{equation}
+        Defining the matrices $\vb{A}$ and $\vb{B}$ as
+        \begin{align}
+            \vb{A} & := \mqty*(
+                -2 \nu_1 m_1^2 & 0 & -\nu_3 \qty(m_1^2 - m_2^2 + m_3^2) \\
+                0 & -2 \nu_2 m_2^2 & -\nu_3 \qty(m_2^2 - m_1^2 + m_3^2) \\
+                0 & \nu_2 \qty(m_1^2 + m_2^2 - m_3^2) & -\nu_3 \qty(m_1^2 - m_2^2 + m_3^2)
+            ), \\
+            \vb{B} & := \mqty*(
+                d - 2 \nu_1 - \nu_3 & 0 & \nu_3 & 0 & -\nu_3 \\
+                d - 2 \nu_2 - \nu_3 & 0 & -\nu_3 & 0 & \nu_3 \\
+                \nu_2 - \nu_3 & -\nu_2 & \nu_3 & \nu_2 & -\nu_3
+            ),
+        \end{align}
+        the solution is given by
+        \begin{equation}
+            \mqty*(\TSI{\nu_1 + 1, \nu_2, \nu_3} \\ \TSI{\nu_1, \nu_2 + 1, \nu_3} \\ \TSI{\nu_1, \nu_2, \nu_3 + 1}) = \vb{A}^{-1} \vb{B} \mqty*(
+                \TSI{\nu_1 \nu_2 \nu_3} \\
+                \TSI{\nu_1, \nu_2 + 1, \nu_3 - 1} \\ \TSI{\nu_1, \nu_2 - 1, \nu_3 + 1} \\
+                \TSI{\nu_1 - 1, \nu_2 + 1, \nu_3} \\ \TSI{\nu_1 - 1, \nu_2, \nu_3 + 1}
+            )
+            \label{eq:IBP-solution}
+        \end{equation}
+        if $\det \vb{A} \neq 0$.
+        Notice that the determinant of $\vb{A}$ is given by
+        \begin{equation}
+            \det \vb{A} = 2 \nu_1 \nu_2 \nu_3 m_1^2 \lambdaFun{m_1^2, m_2^2, m_3^2},
+            \label{eq:det-A}
+        \end{equation}
+        where $\lambdaFun{x, y, z}$ is the Källén triangle function \cite[Eq.~(6.3)--(6.7)]{Byckling:1971ParticleKinematics}
+        \begin{equation}
+            \begin{aligned}
+                \lambdaFun{x, y, z} & := x^2 + y^2 + z^2 - 2 x y - 2 y z - 2 z x \\
+                & = \qty(\sqrt{x} + \sqrt{y} + \sqrt{z}) \qty(\sqrt{x} + \sqrt{y} - \sqrt{z}) \qty(\sqrt{x} - \sqrt{y} + \sqrt{z}) \qty(-\sqrt{x} + \sqrt{y} + \sqrt{z}).
+            \end{aligned}
+            \label{eq:Kallen-triangle}
+        \end{equation}
+        Hence, there are two cases --- non-collinear and collinear --- to be considered.
+
+        \subsection{Non-Collinear Case}
+
+            In the non-collinear case, the solution in Eq.~\eqref{eq:IBP-solution} is valid, which can be used to eliminate the sum of $\nu_i$'s by one from the left-hand-side (LHS) to the right-hand-side (RHS) of Eq.~\eqref{eq:IBP-solution}, which is the key to reduce the two-loop sunrise Feynman integrals to the master integrals (MIs).
+            The expression of $\vb{A}^{-1} \vb{B}$ is too lengthy to be presented here, but it could be reproduced by the \textsc{Wolfram Mathematica}\footnote{\url{https://www.wolfram.com/mathematica}} notebook \githubsrc[note/Mathematica\_notebooks/IBP\_NC.nb].
+            The generated expressions are stored in the directory \githubsrc[ext/ibp\_nc/] for further use.
+
+            As Eq.~\eqref{eq:det-A} shows,
+            \begin{equation}
+                \begin{aligned}
+                    & & & \det \vb{A} = 0 \\
+                    & \Leftrightarrow & & \nu_1 = 0 \lor \nu_2 = 0 \lor \nu_3 = 0 \lor \lambdaFun{m_1^2, m_2^2, m_3^2} = 0.
+                \end{aligned}
+            \end{equation}
+            with $m_1 > 0$\footnote{
+                If $m_1 = 0$, we can just apply the permutation of $\qty(m_1, \nu_1)$, $\qty(m_2, \nu_2)$, and $\qty(m_3, \nu_3)$ to satisfy the condition except for the case of $m_1 = m_2 = m_3 = 0$.
+                However the case of $m_1 = m_2 = m_3 = 0$ is evaluated to $0$ as Eq.~\eqref{eq:all-masses-vanishing} shows.
+            }, $m_2 \ge 0$, and $m_3 \ge 0$.
+            The part of $\lambdaFun{m_1^2, m_2^2, m_3^2} = 0$ is so-called collinear condition since it can be factorized as [Eq.~\eqref{eq:Kallen-triangle}]
+            \begin{equation}
+                \lambdaFun{m_1^2, m_2^2, m_3^2} = \qty(m_1 + m_2 + m_3) \qty(m_1 + m_2 - m_3) \qty(m_1 - m_2 + m_3) \qty(-m_1 + m_2 + m_3).
+            \end{equation}
+            For the part of $\nu_1 = 0 \lor \nu_2 = 0 \lor \nu_3 = 0$, there are several cases to be considered.
+            
+            \paragraph{\boldmath $\nu_1 = \nu_2 = \nu_3 = 0$.}
+            The integrals are trivial as
+            \begin{equation}
+                \TSI{0 0 0}[d, m_1, m_2, m_3] = \int \tildedp{q_1} ~ \tildedp{q_2} \equiv 0.
+            \end{equation}
+
+            \paragraph{\boldmath $\nu_2 = \nu_3 = 0$.}
+            The integrals are also trivial as
+            \begin{equation}
+                \TSI{0 0 \nu_3} = \int \frac{\tildedp{q_1} ~ \tildedp{q_2}}{\qmOne*} = \int \tildedp{q_2} \int \frac{\tildedp{q_1}}{\qmOne*} \equiv 0.
+            \end{equation}
+            For the cases of $\nu_3 = \nu_1 = 0$ or $\nu_1 = \nu_2 = 0$, the permutation of $\qty(m_1, \nu_1)$, $\qty(m_2, \nu_2)$, and $\qty(m_3, \nu_3)$ can be applied to obtain the same results.
+
+            \paragraph{\boldmath $\nu_3 = 0$.}
+            The integrals are factorized as
+            \begin{equation}
+                \begin{aligned}
+                    \TSI{\nu_1 \nu_2 0} = \int \frac{\tildedp{q_1} ~ \tildedp{q_2}}{\qmOne* \qmTwo*} & = \int \frac{\tildedp{q_1}}{\qmOne*} \int \frac{\tildedp{q_2}}{\qmTwo*} \\
+                    & \equiv \Ione{\nu_1}[d, m_1] \Ione{\nu_2}[d, m_2],
+                \end{aligned}
+                \label{eq:TSI-factorization}
+            \end{equation}
+            where $\Ione{\nu}[d, m]$ is evaluateed to \cite[Eq.~(10.1)]{Smirnov:2012gma}
+            \begin{equation}
+                \Ione{\nu}[d, m] = \frac{\Gamma\qty(\nu - \frac{d}{2})}{\Gamma(\nu)} \qty(m^2)^{\frac{d}{2} - \nu}.
+                \label{eq:I1}
+            \end{equation}
+            For the cases of $\nu_1 = 0$ or $\nu_2 = 0$, the permutation of $\qty(m_1, \nu_1)$, $\qty(m_2, \nu_2)$, and $\qty(m_3, \nu_3)$ can be applied to obtain the same results.
+
+            The integrals with $\nu_1 = 0 \lor \nu_2 = 0 \lor \nu_3 = 0$ are called the boundary cases.
+            For every integral with $\nu_1 \ge 0 \land \nu_2 \ge 0 \land \nu_3 \ge 0$, the IBP reduction can be applied to reduce the integrals to the boundary cases and $\TSI{111}$.
+            Actually, there are only two MIs in the non-collinear case --- $\TSI{111}$ and $\TSI{110}$.
+            However, the boundary cases are easy to evaluate as Eq.~\eqref{eq:I1} shows, so we do not reduce $\TSI{\nu_1 \nu_2 0}$ to $\TSI{110}$ in practice.
+
+        \subsection{Collinear Case}
+
+    \section{Master Integrals}\label{sec:master-integral}
+            
+        In this section, we evaluate the MIs and expand them into $\varepsilon$-series.
+
+        \subsection{Factorization as Products of One-Loop Integrals}
+
+            As Eq.~\eqref{eq:TSI-factorization} shows, the factorization of $\TSI{\nu_1 \nu_2 0} = \Ione{\nu_1} \Ione{\nu_2}$ makes the evaluation of $\TSI{\nu_1 \nu_2 0}$ easier.
+            The expansion of $\Ione{\nu}[d, m]$ into $\varepsilon$-series is easily obtained as
+            \begin{align}
+                \Ione{1}[d, m] & = -\frac{m^2}{\varepsilon} - m^2 \qty(1 - \eulergamma - \ln m^2) + \order{\varepsilon^1}, \\
+                \Ione{2}[d, m] & = \frac{1}{\varepsilon} - \qty(\eulergamma + \ln m^2) + \order{\varepsilon^1}, \\
+                \Ione{\nu > 2}[d, m] & = \frac{\qty(m^2)^{2 - \nu}}{\qty(\nu - 1) \qty(\nu - 2)} + \order{\varepsilon^1}.
+            \end{align}
+            These expansions are evaluated in \githubsrc[note/Mathematica\_notebooks/I\_1-loop.nb] and stored in the directory \githubsrc[ext/one\_loop/] for further use.
+
+        \subsection{\boldmath Non-Collinear \texorpdfstring{$\TSI{111}$}{TSI-111}}
+
+            For the master integral $\TSI{111}$, Eq.~(4.9) of Ref.~\cite{Davydychev:1992mt} shows
+            \begin{equation}
+                \begin{aligned}
+                    \TSI{111}[d, m_1, m_2, m_3] & = \frac{1}{2} \qty(m_1^2)^{1 - 2 \varepsilon} A(\varepsilon) \qty[
+                        \begin{aligned}
+                            -\frac{1}{\varepsilon^2} \qty(1 + x + y) + \frac{2}{\varepsilon} \qty(x \ln x + y \ln y) - x \ln^2 x - y \ln^2 y \\
+                            {} + (1 - x - y) \ln x \ln y - \lambdaFun{1, x, y} \Phi(x, y)
+                        \end{aligned}
+                    ]
+                \end{aligned}
+                \label{eq:TSI-111}
+            \end{equation}
+            for
+            \begin{equation}
+                \lambdaFun{1, x, y} > 0 \qand 0 < x, y < 1,
+            \end{equation}
+            where
+            \begin{equation}
+                x := \frac{m_2^2}{m_1^2}, \quad y := \frac{m_3^2}{m_1^2},
+            \end{equation}
+            and
+            \begin{equation}
+                \begin{aligned}
+                    A(\varepsilon) & := \frac{\Gamma^2(1 + \varepsilon)}{(1 - \varepsilon) (1 - 2 \varepsilon)}, \\
+                    \Phi(x, y) & := \frac{1}{\sqrt{\lambdaFun{1, x, y}}} \qty[
+                        \begin{aligned}
+                            2 \ln\qty(\frac{1 + x - y - \sqrt{\lambdaFun{1, x, y}}}{2}) \ln\qty(\frac{1 - x + y - \sqrt{\lambdaFun{1, x, y}}}{2}) - \ln x \ln y \\
+                            {} - 2 \Li[2]{\frac{1 - x + y - \sqrt{\lambdaFun{1, x, y}}}{2}} - 2 \Li[2]{\frac{1 + x - y - \sqrt{\lambdaFun{1, x, y}}}{2}} + \frac{\pi^2}{3}
+                        \end{aligned}
+                    ].
+                \end{aligned}
+            \end{equation}
+            For $\lambdaFun{1, x, y} < 0$ and $0 < x, y < 1$, Eq.~(4.12) of Ref.~\cite{Davydychev:1992mt} shows
+            \begin{equation}
+                \TSI{111}[d, m_1, m_2, m_3] = \qty(m_1^2)^{1 - 2 \varepsilon} \frac{A(\varepsilon)}{2 \varepsilon^2} \qty[
+                    \begin{aligned}
+                        x^{-\varepsilon} y^{-\varepsilon} (1 - x - y) ~ \pFq{2}{1}{\varepsilon, 1}{\frac{1}{2} + \varepsilon}{-\frac{\lambdaFun{1, x, y}}{4 x y}} \\
+                        {} - x^{-\varepsilon} (1 + x - y) ~ \pFq{2}{1}{\varepsilon, 1}{\frac{1}{2} + \varepsilon}{-\frac{\lambdaFun{1, x, y}}{4 x}} \\
+                        {} - y^{-\varepsilon} (1 - x + y) ~ \pFq{2}{1}{\varepsilon, 1}{\frac{1}{2} + \varepsilon}{-\frac{\lambdaFun{1, x, y}}{4 y}}
+                    \end{aligned}
+                ].
+            \end{equation}
+            The $\varepsilon$-series expansions of $\TSI{111}$ are evaluated in \githubsrc[note/Mathematica\_notebooks/TSI111\_NC.nb] and stored in the directory \githubsrc[ext/TSI111\_nc/] for further use.
+
+    \section{Implementation}\label{sec:implementation}
+
+    \section{Conclusion}\label{sec:conclusion}
+
+    \clearpage
+    \printbibliography[heading=bibintoc]
+\end{document}

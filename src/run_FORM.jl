@@ -5,12 +5,13 @@
 
 function __run_FORM_file(
     script_file_path::String;
-    multithreading_flag::Bool=false
+    multithreading_flag::Bool=false,
+    num_threads::Int=Threads.nthreads()
 )::String
     result_io = IOBuffer()
     exec = pipeline(
         multithreading_flag ?
-            `$(FORM_jll.tform()) -w$(Threads.nthreads()) -q $(script_file_path)` :
+            `$(FORM_jll.tform()) -w$(num_threads) -q $(script_file_path)` :
             `$(FORM_jll.form()) -q $(script_file_path)`;
         stdin=open(script_file_path, "r"),
         stdout=result_io
@@ -29,12 +30,13 @@ end
 function __run_FORM_content(
     script_str::String;
     debug_filename::String="debug",
-    multithreading_flag::Bool=false
+    multithreading_flag::Bool=false,
+    num_threads::Int=Threads.nthreads()
 )::String
     result_io = IOBuffer()
     exec = pipeline(
         multithreading_flag ?
-            `$(FORM_jll.tform()) -w$(Threads.nthreads()) -q -` :
+            `$(FORM_jll.tform()) -w$(num_threads) -q -` :
             `$(FORM_jll.form()) -q -`;
         stdin=IOBuffer(script_str),
         stdout=result_io

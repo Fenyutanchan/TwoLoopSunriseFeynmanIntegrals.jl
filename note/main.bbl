@@ -1,0 +1,157 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{Smirnov:2012gma}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=91271874849db2cf7ede27ffca39489b}{%
+           family={Smirnov},
+           familyi={S\bibinitperiod},
+           given={Vladimir\bibnamedelima A.},
+           giveni={V\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \strng{namehash}{91271874849db2cf7ede27ffca39489b}
+      \strng{fullhash}{91271874849db2cf7ede27ffca39489b}
+      \strng{fullhashraw}{91271874849db2cf7ede27ffca39489b}
+      \strng{bibnamehash}{91271874849db2cf7ede27ffca39489b}
+      \strng{authorbibnamehash}{91271874849db2cf7ede27ffca39489b}
+      \strng{authornamehash}{91271874849db2cf7ede27ffca39489b}
+      \strng{authorfullhash}{91271874849db2cf7ede27ffca39489b}
+      \strng{authorfullhashraw}{91271874849db2cf7ede27ffca39489b}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{{Analytic tools for Feynman integrals}}
+      \field{volume}{250}
+      \field{year}{2012}
+      \verb{doi}
+      \verb 10.1007/978-3-642-34886-0
+      \endverb
+    \endentry
+    \entry{Weinzierl:2022eaz}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=7f6677631454c7c9baa854e96f9a6f6f}{%
+           family={Weinzierl},
+           familyi={W\bibinitperiod},
+           given={Stefan},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{7f6677631454c7c9baa854e96f9a6f6f}
+      \strng{fullhash}{7f6677631454c7c9baa854e96f9a6f6f}
+      \strng{fullhashraw}{7f6677631454c7c9baa854e96f9a6f6f}
+      \strng{bibnamehash}{7f6677631454c7c9baa854e96f9a6f6f}
+      \strng{authorbibnamehash}{7f6677631454c7c9baa854e96f9a6f6f}
+      \strng{authornamehash}{7f6677631454c7c9baa854e96f9a6f6f}
+      \strng{authorfullhash}{7f6677631454c7c9baa854e96f9a6f6f}
+      \strng{authorfullhashraw}{7f6677631454c7c9baa854e96f9a6f6f}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{hep-th}
+      \field{eprinttype}{arXiv}
+      \field{isbn}{978-3-030-99557-7, 978-3-030-99560-7, 978-3-030-99558-4}
+      \field{series}{UNITEXT for Physics}
+      \field{title}{{Feynman Integrals. A Comprehensive Treatment for Students and Researchers}}
+      \field{year}{2022}
+      \verb{doi}
+      \verb 10.1007/978-3-030-99558-4
+      \endverb
+      \verb{eprint}
+      \verb 2201.03593
+      \endverb
+    \endentry
+    \entry{Byckling:1971ParticleKinematics}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=0f21e5ce0a2a3ea1ff9a3cadfc65f6c8}{%
+           family={Byckling},
+           familyi={B\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod}}}%
+        {{hash=2f7933701198c874aba8a9a3b557ac4d}{%
+           family={Kajantie},
+           familyi={K\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {London}%
+      }
+      \list{publisher}{1}{%
+        {John Wiley \& Sons Ltd}%
+      }
+      \strng{namehash}{009bf5d01cd40fc8184af04e9a3bd1c4}
+      \strng{fullhash}{009bf5d01cd40fc8184af04e9a3bd1c4}
+      \strng{fullhashraw}{009bf5d01cd40fc8184af04e9a3bd1c4}
+      \strng{bibnamehash}{009bf5d01cd40fc8184af04e9a3bd1c4}
+      \strng{authorbibnamehash}{009bf5d01cd40fc8184af04e9a3bd1c4}
+      \strng{authornamehash}{009bf5d01cd40fc8184af04e9a3bd1c4}
+      \strng{authorfullhash}{009bf5d01cd40fc8184af04e9a3bd1c4}
+      \strng{authorfullhashraw}{009bf5d01cd40fc8184af04e9a3bd1c4}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Particle Kinematics}
+      \field{year}{1973}
+    \endentry
+    \entry{Davydychev:1992mt}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=ca091792ea78790ebddfe3429d39e2c1}{%
+           family={Davydychev},
+           familyi={D\bibinitperiod},
+           given={Andrei\bibnamedelima I.},
+           giveni={A\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
+        {{hash=9b184ca298153d4553117b850b07f9ab}{%
+           family={Tausk},
+           familyi={T\bibinitperiod},
+           given={J.\bibnamedelimi B.},
+           giveni={J\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \strng{namehash}{e8e324b81300c4b9aec36d2238e63722}
+      \strng{fullhash}{e8e324b81300c4b9aec36d2238e63722}
+      \strng{fullhashraw}{e8e324b81300c4b9aec36d2238e63722}
+      \strng{bibnamehash}{e8e324b81300c4b9aec36d2238e63722}
+      \strng{authorbibnamehash}{e8e324b81300c4b9aec36d2238e63722}
+      \strng{authornamehash}{e8e324b81300c4b9aec36d2238e63722}
+      \strng{authorfullhash}{e8e324b81300c4b9aec36d2238e63722}
+      \strng{authorfullhashraw}{e8e324b81300c4b9aec36d2238e63722}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nucl. Phys. B}
+      \field{title}{{Two loop selfenergy diagrams with different masses and the momentum expansion}}
+      \field{volume}{397}
+      \field{year}{1993}
+      \field{pages}{123\bibrangedash 142}
+      \range{pages}{20}
+      \verb{doi}
+      \verb 10.1016/0550-3213(93)90338-P
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

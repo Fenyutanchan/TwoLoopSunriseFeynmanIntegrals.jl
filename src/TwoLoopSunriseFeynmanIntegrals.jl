@@ -5,15 +5,24 @@
 
 module TwoLoopSunriseFeynmanIntegrals
 
+using SpecialFunctions
 using SymEngine
 
 import FORM_jll
 
 export TSI_reduction
 
-include("FORM_scripts.jl")
+include("utils.jl")
+
+include("basics.jl")
 include("externals.jl")
-include("reductions.jl")
+
+include("TSI.jl")
 include("run_FORM.jl")
+
+# include("FORM_scripts.jl")
+# include("externals.jl")
+# include("reductions.jl")
+# include("trivials.jl")
 
 end # module TwoLoopSunriseFeynmanIntegrals

@@ -1,0 +1,39 @@
+\newcommand{\ee}{\mathrm{e}}
+\newcommand{\ii}{\mathrm{i}}
+
+\newcommand{\eulergamma}{\gamma_\mathrm{E}}
+
+\DeclareDocumentCommand{\twopi}{o}{\IfNoValueTF{#1}{2 \pi}{\qty(2 \pi)^{#1}}}
+\DeclareDocumentCommand{\diracdelta}{o}{\IfNoValueTF{#1}{\delta}{\delta^{(#1)}}}
+\DeclareDocumentCommand{\twopidelta}{om}{\IfNoValueTF{#1}{\twopi[] \diracdelta}{\twopi[#1] \diracdelta[#1]} \qty(#2)}
+\DeclareDocumentCommand{\TSI}{mo}{I_\mathrm{TSI}^{\qty(#1)}\IfNoValueF{#2}{\qty(#2)}}
+\DeclareDocumentCommand{\Ione}{mo}{I_1^{\qty(#1)}\IfNoValueF{#2}{\qty(#2)}}
+\DeclareDocumentCommand{\lambdaFun}{om}{\lambda\IfNoValueF{#1}{^{#1}}\qty(#2)}
+
+\DeclareDocumentCommand{\Li}{oom}{\mathrm{Li}\IfNoValueF{#1}{_{#1}}\IfNoValueF{#2}{^{#2}}\qty(#3)}
+
+\DeclareDocumentCommand{\denominator}{moo}{\qty(-#1^2 \IfNoValueF{#2}{+ #2^2}) \IfNoValueF{#3}{^{#3}}}
+\DeclareDocumentCommand{\qmOne}{so}{\denominator{q_1}[m_1][\IfBooleanTF{#1}{\nu_1}{\IfNoValueF{#2}{#2}}]}
+\DeclareDocumentCommand{\qmTwo}{so}{\denominator{q_2}[m_2][\IfBooleanTF{#1}{\nu_2}{\IfNoValueF{#2}{#2}}]}
+\DeclareDocumentCommand{\qmThree}{so}{\denominator{q_{12}}[m_3][\IfBooleanTF{#1}{\nu_3}{\IfNoValueF{#2}{#2}}]}
+
+\newcommand{\tildedp}[1]{\widetilde{\dd{#1}}}
+
+% copied from https://tex.stackexchange.com/questions/2476/using-latex-to-render-hypergeometric-function-notation
+\newmuskip\pFqmuskip
+\newcommand*\pFq[6][8]{%
+    \begingroup % only local assignments
+        \pFqmuskip=#1mu\relax
+        \mathchardef\normalcomma=\mathcode`,
+        % make the comma math active
+        \mathcode`\,=\string"8000
+        % and define it to be \pFqcomma
+        \begingroup\lccode`\~=`\,
+        \lowercase{\endgroup\let~}\pFqcomma
+        % typeset the formula
+        {}_{#2}F_{#3}{\left(\genfrac..{0pt}{}{#4}{#5}\middle|#6\right)}%
+    \endgroup
+}
+\newcommand{\pFqcomma}{{\normalcomma}\mskip\pFqmuskip}
+
+
