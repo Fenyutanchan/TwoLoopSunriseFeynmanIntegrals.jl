@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Quan-feng WU <wuquanfeng@ihep.ac.cn>
+# Copyright (c) 2025 Wen-Di Li <liwendi23@mails.ucas.ac.cn> and Quan-feng WU <wuquanfeng@ihep.ac.cn>
 # 
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
@@ -24,3 +24,5 @@ function __read_Mathematica_output(file::String)
 
     return output_str
 end
+
+include("run_FORM.jl")
