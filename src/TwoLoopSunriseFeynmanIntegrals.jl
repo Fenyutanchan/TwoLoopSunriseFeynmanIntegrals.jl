@@ -20,9 +20,4 @@ include("externals.jl")
 include("TSI.jl")
 include("run_FORM.jl")
 
-# include("FORM_scripts.jl")
-# include("externals.jl")
-# include("reductions.jl")
-# include("trivials.jl")
-
 end # module TwoLoopSunriseFeynmanIntegrals

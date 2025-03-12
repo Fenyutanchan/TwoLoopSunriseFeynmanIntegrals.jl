@@ -116,6 +116,46 @@
       \field{title}{Particle Kinematics}
       \field{year}{1973}
     \endentry
+    \entry{Davydychev:2022dcw}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=ca091792ea78790ebddfe3429d39e2c1}{%
+           family={Davydychev},
+           familyi={D\bibinitperiod},
+           given={Andrei\bibnamedelima I.},
+           giveni={A\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
+        {{hash=fbe03cdba9ac4c2b7e5fcc453650e36a}{%
+           family={Schröder},
+           familyi={S\bibinitperiod},
+           given={York},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{7ede25d716db4b12af2ad20dc66c6084}
+      \strng{fullhash}{7ede25d716db4b12af2ad20dc66c6084}
+      \strng{fullhashraw}{7ede25d716db4b12af2ad20dc66c6084}
+      \strng{bibnamehash}{7ede25d716db4b12af2ad20dc66c6084}
+      \strng{authorbibnamehash}{7ede25d716db4b12af2ad20dc66c6084}
+      \strng{authornamehash}{7ede25d716db4b12af2ad20dc66c6084}
+      \strng{authorfullhash}{7ede25d716db4b12af2ad20dc66c6084}
+      \strng{authorfullhashraw}{7ede25d716db4b12af2ad20dc66c6084}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{hep-ph}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{JHEP}
+      \field{title}{{Recursion-free solution for two-loop vacuum integrals with “{}collinear”{} masses}}
+      \field{volume}{12}
+      \field{year}{2022}
+      \field{pages}{047}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1007/JHEP12(2022)047
+      \endverb
+      \verb{eprint}
+      \verb 2210.10593
+      \endverb
+    \endentry
     \entry{Davydychev:1992mt}{article}{}{}
       \name{author}{2}{}{%
         {{hash=ca091792ea78790ebddfe3429d39e2c1}{%
@@ -137,8 +177,8 @@
       \strng{authornamehash}{e8e324b81300c4b9aec36d2238e63722}
       \strng{authorfullhash}{e8e324b81300c4b9aec36d2238e63722}
       \strng{authorfullhashraw}{e8e324b81300c4b9aec36d2238e63722}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Nucl. Phys. B}

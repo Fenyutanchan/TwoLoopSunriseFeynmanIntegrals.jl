@@ -227,12 +227,14 @@
             The integrals are trivial as
             \begin{equation}
                 \TSI{0 0 0}[d, m_1, m_2, m_3] = \int \tildedp{q_1} ~ \tildedp{q_2} \equiv 0.
+                \label{eq:TSI-000}
             \end{equation}
 
             \paragraph{\boldmath $\nu_2 = \nu_3 = 0$.}
             The integrals are also trivial as
             \begin{equation}
                 \TSI{0 0 \nu_3} = \int \frac{\tildedp{q_1} ~ \tildedp{q_2}}{\qmOne*} = \int \tildedp{q_2} \int \frac{\tildedp{q_1}}{\qmOne*} \equiv 0.
+                \label{eq:TSI-00n}
             \end{equation}
             For the cases of $\nu_3 = \nu_1 = 0$ or $\nu_1 = \nu_2 = 0$, the permutation of $\qty(m_1, \nu_1)$, $\qty(m_2, \nu_2)$, and $\qty(m_3, \nu_3)$ can be applied to obtain the same results.
 
@@ -258,6 +260,37 @@
             However, the boundary cases are easy to evaluate as Eq.~\eqref{eq:I1} shows, so we do not reduce $\TSI{\nu_1 \nu_2 0}$ to $\TSI{110}$ in practice.
 
         \subsection{Collinear Case}
+
+            If $\lambdaFun{m_1^2, m_2^2, m_3^2} = 0$, we cannot apply Eq.~\eqref{eq:IBP-solution} to reduce the integrals since $\vb{A}$ is singular, \ie, $\vb{A}^{-1}$ does not exist.
+            Notice that
+            \begin{equation}
+                \lambda(m_1^2, m_2^2, m_3^2) = 0 \quad \Longleftrightarrow \quad m_1 + m_2 + m_3 = 0 \lor m_1 = m_2 + m_3 \lor m_2 = m_1 + m_3 \lor m_3 = m_1 + m_2.
+            \end{equation}
+            Since $m_i \ge 0$ and $\TSI{\nu_1 \nu_2 \nu_3}[d, 0, 0, 0]$ vanishes as Eq.~\eqref{eq:all-masses-vanishing} shows, the first condition is excluded.
+            The other three conditions are called the collinear cases.
+            Without loss of generality, the permutation of $\qty(m_1, \nu_1)$, $\qty(m_2, \nu_2)$, and $\qty(m_3, \nu_3)$ can be applied to obtain the case $m_1 = m_2 + m_3$.
+
+            From Eq.~(2.4) of Ref.~\cite{Davydychev:2022dcw}, we have
+            \begin{equation}
+                \TSI{\nu_1, \nu_2, \nu_3}[d, m_1, m_2, m_3] = \frac{1}{2 \qty(d + 3 - 2 \nu) m_1 m_2 m_3} \qty{
+                    \begin{aligned}
+                        \qty[m_1 \qty(d + 2 - \nu) - m_2 \nu_3 - m_3 \nu_2] \TSI{\nu_1 - 1, \nu_2, \nu_3} \\
+                        {} + \qty[m_1 \nu_3 - m_2 \qty(d + 2 - \nu) - m_3 \nu_1] \TSI{\nu_1, \nu_2 - 1, \nu_3} \\
+                        {} + \qty[m_1 \nu_2 - m_2 \nu_1 - m_3 \qty(d + 2 - \nu)] \TSI{\nu_1, \nu_2, \nu_3 - 1} \\
+                    \end{aligned}
+                },
+            \end{equation}
+            where $m_1 = m_2 + m_3$ and $\nu = \nu_1 + \nu_2 + \nu_3$.
+            We can apply this formula to reduce the collinear cases to the boundary cases, \ie, $\nu_i = 0$ for any $i = 1, 2, 3$.
+            The boundary cases of any $\nu_i = 0$ are the same as Eqs.~\eqref{eq:TSI-000}, \eqref{eq:TSI-00n}, and \eqref{eq:TSI-factorization}.
+            We also perform the $\varepsilon$-expansion in \githubsrc[note/Mathematica\_notebooks/IBP\_CL.nb], and the results are stored in the directory \githubsrc[ext/ibp\_cl/] for further use.
+            
+            Different from the non-collinear case, $\TSI{111}$ is no longer the boundary case (or MIs) that needs to be evaluated independently.
+            Instead, we have \cite[Eq.~(2.14)]{Davydychev:2022dcw}
+            \begin{equation}
+                \TSI{111}[d, m_1, m_2, m_3] = \frac{d - 2}{2 (d - 3)} \qty(\frac{\TSI{011}}{m_2 m_3} - \frac{\TSI{101}}{m_3 m_1} - \frac{\TSI{110}}{m_1 m_2})
+            \end{equation}
+            for $m_1 = m_2 + m_3$.
 
     \section{Master Integrals}\label{sec:master-integral}
             
