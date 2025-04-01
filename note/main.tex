@@ -24,7 +24,7 @@
 ]{hyperref}
 % \usepackage[color=violet]{attachfile2}
 % \usepackage{mathrsfs}
-% \usepackage{mathtools}
+\usepackage{mathtools}
 \usepackage{pgfplots}
     \pgfplotsset{compat=1.18}
 \usepackage{physics}
@@ -71,12 +71,12 @@
 
         We provide a \textsc{Julia}\footnote{\url{https://julialang.org}} package \texttt{TwoLoopSunriseFeynmanIntegrals.jl}\footnote{\githubsrc} for two-loop sunrise Feynman integrals\footnote{We suggest Refs.~\cite{Smirnov:2012gma, Weinzierl:2022eaz} for pedagogical introduction to Feynman integrals.}, which reads \cite[Eq.~(2.56)]{Weinzierl:2022eaz}\footnote{For simplicity, the prefactor $\ee^{2 \varepsilon \eulergamma} \qty(\mu^2)^{\nu - d}$ with $\nu \equiv \nu_1 + \nu_2 + \nu_3$ for the \emph{modified minimal subtraction scheme} is omitted here.}
         \begin{equation}
-            \TSI{\nu_1, \nu_2, \nu_3}[d, m_1, m_2, m_3] := \int \frac{\tildedp{q_1} ~ \tildedp{q_2}}{\qmOne* \qmTwo* \qmThree*},
+            \TSI{\nu_1, \nu_2, \nu_3}[d, m_1, m_2, m_3] \coloneq \int \frac{\tildedp{q_1} ~ \tildedp{q_2}}{\qmOne* \qmTwo* \qmThree*},
         \end{equation}
         where $d = 4 - 2 \varepsilon$ is the spacetime dimension, $m_i$'s are the masses, $\nu_i$'s are the exponents, and $q_i$ are the loop momenta ($q_{12} \equiv q_1 + q_2$).
         In this note, we take the loop momentum measure as
         \begin{equation}
-            \tildedp{q} := \frac{\dd[d]{q}}{\ii \pi^{d/2}}.
+            \tildedp{q} \coloneq \frac{\dd[d]{q}}{\ii \pi^{d/2}}.
         \end{equation}
         One can easily verify that that this integral is invariant under the permutation of $\qty(m_1, \nu_1)$, $\qty(m_2, \nu_2)$, and $\qty(m_3, \nu_3)$, \eg,
         \begin{equation}
@@ -169,12 +169,12 @@
         \end{equation}
         Defining the matrices $\vb{A}$ and $\vb{B}$ as
         \begin{align}
-            \vb{A} & := \mqty*(
+            \vb{A} & \coloneq \mqty*(
                 -2 \nu_1 m_1^2 & 0 & -\nu_3 \qty(m_1^2 - m_2^2 + m_3^2) \\
                 0 & -2 \nu_2 m_2^2 & -\nu_3 \qty(m_2^2 - m_1^2 + m_3^2) \\
                 0 & \nu_2 \qty(m_1^2 + m_2^2 - m_3^2) & -\nu_3 \qty(m_1^2 - m_2^2 + m_3^2)
             ), \\
-            \vb{B} & := \mqty*(
+            \vb{B} & \coloneq \mqty*(
                 d - 2 \nu_1 - \nu_3 & 0 & \nu_3 & 0 & -\nu_3 \\
                 d - 2 \nu_2 - \nu_3 & 0 & -\nu_3 & 0 & \nu_3 \\
                 \nu_2 - \nu_3 & -\nu_2 & \nu_3 & \nu_2 & -\nu_3
@@ -198,7 +198,7 @@
         where $\lambdaFun{x, y, z}$ is the Källén triangle function \cite[Eq.~(6.3)--(6.7)]{Byckling:1971ParticleKinematics}
         \begin{equation}
             \begin{aligned}
-                \lambdaFun{x, y, z} & := x^2 + y^2 + z^2 - 2 x y - 2 y z - 2 z x \\
+                \lambdaFun{x, y, z} & \coloneq x^2 + y^2 + z^2 - 2 x y - 2 y z - 2 z x \\
                 & = \qty(\sqrt{x} + \sqrt{y} + \sqrt{z}) \qty(\sqrt{x} + \sqrt{y} - \sqrt{z}) \qty(\sqrt{x} - \sqrt{y} + \sqrt{z}) \qty(-\sqrt{x} + \sqrt{y} + \sqrt{z}).
             \end{aligned}
             \label{eq:Kallen-triangle}
@@ -326,36 +326,41 @@
                 \end{aligned}
                 \label{eq:TSI-111}
             \end{equation}
-            for
+            where $m_1$, $m_2$, and $m_3$ are positive masses,
             \begin{equation}
-                \lambdaFun{1, x, y} > 0 \qand 0 < x, y < 1,
-            \end{equation}
-            where
-            \begin{equation}
-                x := \frac{m_2^2}{m_1^2}, \quad y := \frac{m_3^2}{m_1^2},
-            \end{equation}
-            and
-            \begin{equation}
-                \begin{aligned}
-                    A(\varepsilon) & := \frac{\Gamma^2(1 + \varepsilon)}{(1 - \varepsilon) (1 - 2 \varepsilon)}, \\
-                    \Phi(x, y) & := \frac{1}{\sqrt{\lambdaFun{1, x, y}}} \qty[
-                        \begin{aligned}
-                            2 \ln\qty(\frac{1 + x - y - \sqrt{\lambdaFun{1, x, y}}}{2}) \ln\qty(\frac{1 - x + y - \sqrt{\lambdaFun{1, x, y}}}{2}) - \ln x \ln y \\
-                            {} - 2 \Li[2]{\frac{1 - x + y - \sqrt{\lambdaFun{1, x, y}}}{2}} - 2 \Li[2]{\frac{1 + x - y - \sqrt{\lambdaFun{1, x, y}}}{2}} + \frac{\pi^2}{3}
-                        \end{aligned}
-                    ].
-                \end{aligned}
-            \end{equation}
-            For $\lambdaFun{1, x, y} < 0$ and $0 < x, y < 1$, Eq.~(4.12) of Ref.~\cite{Davydychev:1992mt} shows
-            \begin{equation}
-                \TSI{111}[d, m_1, m_2, m_3] = \qty(m_1^2)^{1 - 2 \varepsilon} \frac{A(\varepsilon)}{2 \varepsilon^2} \qty[
+                \left\{
                     \begin{aligned}
-                        x^{-\varepsilon} y^{-\varepsilon} (1 - x - y) ~ \pFq{2}{1}{\varepsilon, 1}{\frac{1}{2} + \varepsilon}{-\frac{\lambdaFun{1, x, y}}{4 x y}} \\
-                        {} - x^{-\varepsilon} (1 + x - y) ~ \pFq{2}{1}{\varepsilon, 1}{\frac{1}{2} + \varepsilon}{-\frac{\lambdaFun{1, x, y}}{4 x}} \\
-                        {} - y^{-\varepsilon} (1 - x + y) ~ \pFq{2}{1}{\varepsilon, 1}{\frac{1}{2} + \varepsilon}{-\frac{\lambdaFun{1, x, y}}{4 y}}
+                        x & \coloneq \frac{m_2^2}{m_1^2}, \\
+                        y & \coloneq \frac{m_3^2}{m_1^2},
                     \end{aligned}
-                ].
+                \right.
             \end{equation}
+            with $0 \le x, y \le 1$, and
+            \begin{equation}
+                A(\varepsilon) \coloneq \frac{\Gamma^2\qty(1 + \varepsilon)}{(1 - \varepsilon) (1 - 2 \varepsilon)}.
+            \end{equation}
+            
+            \begin{enumerate}
+                \item For $\lambdaFun{1, x, y} > 0$, we have $\sqrt{x} + \sqrt{y} < 1$ and
+                    \begin{equation}
+                        \Phi(x, y) \coloneq \frac{1}{\sqrt{\lambdaFun{1, x, y}}} \qty[
+                            \begin{aligned}
+                                2 \ln\qty(\frac{1 + x - y - \sqrt{\lambdaFun{1, x, y}}}{2}) \ln\qty(\frac{1 - x + y - \sqrt{\lambdaFun{1, x, y}}}{2}) \\
+                                {} - 2 \Li[2]{\frac{1 - x + y - \sqrt{\lambdaFun{1, x, y}}}{2}} - 2 \Li[2]{\frac{1 + x - y - \sqrt{\lambdaFun{1, x, y}}}{2}} \\
+                                {} - \ln x \ln y + \frac{\pi^2}{3}
+                            \end{aligned}
+                        ];
+                    \end{equation}
+                \item For $\lambdaFun{1, x, y} < 0$, we have $\sqrt{x} + \sqrt{y} > 1$ and
+                    \begin{equation}
+                        \Phi(x, y) \coloneq \frac{2}{\sqrt{-\lambdaFun{1, x, y}}} \qty[
+                            \begin{aligned}
+                                \operatorname{Cl}_2\qty(2 \arccos \frac{1 + x - y}{2 \sqrt{x}}) + \operatorname{Cl}_2\qty(2 \arccos \frac{1 - x + y}{2 \sqrt{y}}) \\
+                                {} + \operatorname{Cl}_2\qty(2 \arccos \frac{-1 + x + y}{2 \sqrt{x y}}).
+                            \end{aligned}
+                        ]
+                    \end{equation}
+            \end{enumerate}
             The $\varepsilon$-series expansions of $\TSI{111}$ are evaluated in \githubsrc[note/Mathematica\_notebooks/TSI111\_NC.nb] and stored in the directory \githubsrc[ext/TSI111\_nc/] for further use.
 
     \section{Implementation}\label{sec:implementation}
