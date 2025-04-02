@@ -136,6 +136,11 @@ function TSI_evaluation_111_NC(m₁, m₂, m₃, λ_gt_0_flag::Bool)
         ), all_rules)
     elseif counter_vanishing_mass == 1
         return subs(Basic(__TSI111_nc_one_vanishing_str), all_rules)
+    elseif counter_vanishing_mass == 2
+        return subs(Basic(__TSI111_nc_two_vanishing_str), all_rules)
+    else
+        @assert counter_vanishing_mass == 3
+        return zero(Basic)
     end
 end
 

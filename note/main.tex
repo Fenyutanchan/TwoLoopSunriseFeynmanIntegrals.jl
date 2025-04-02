@@ -374,6 +374,16 @@
             \end{equation}
             which is evaluated in \githubsrc[note/Mathematica\_notebooks/TSI111\_NC\_one\_vanishing.nb] and stored in the directory \githubsrc[ext/TSI111\_nc/] for further use.
 
+            \paragraph{Two vanishing masses.}
+            For the case of $m_1 > m_2 = m_3 = 0$, Eq.~(10.39) of Ref.~\cite{Smirnov:2012gma} gives that
+            \begin{equation}
+                \begin{aligned}
+                    \TSI{111}[d, m_1, 0, 0] & = & & \frac{\Gamma\qty(3 - d)}{\qty(m_1^2)^{3 - d}} \frac{\Gamma\qty(2 - \frac{d}{2}) \Gamma^2\qty(\frac{d}{2} - 1)}{\Gamma^3(1) \Gamma\qty(\frac{d}{2})} \\
+                    & = & & -\frac{m_1^2}{2 \varepsilon^2} + \frac{m_1^2}{2 \varepsilon} \qty(-3 + 2 \eulergamma + 2 \ln m_1^2) \\
+                    & & & {} + m_1^2 \qty[-\frac{7}{2} + \qty(3 - \eulergamma) \eulergamma - \frac{\pi^2}{4} + \qty(3 - 2 \eulergamma) \ln m_1^2 - \ln^2 m_1^2] + \order{\varepsilon},
+                \end{aligned}
+            \end{equation}
+            which is evaluated in \githubsrc[note/Mathematica\_notebooks/TSI111\_NC\_two\_vanishing.nb] and stored in the directory \githubsrc[ext/TSI111\_nc/] for further use.
 
     % \section{Implementation}\label{sec:implementation}
 
