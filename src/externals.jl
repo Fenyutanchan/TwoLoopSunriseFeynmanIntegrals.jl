@@ -35,3 +35,4 @@ const __one_loop_gt_2_str = (__read_Mathematica_output ∘ joinpath)(__one_loop_
 const __TSI111_nc_path = joinpath(__ext_path, "TSI111_nc")
 const __TSI111_nc_case1_str = (__read_Mathematica_output ∘ joinpath)(__TSI111_nc_path, "case_1")
 const __TSI111_nc_case2_str = (__read_Mathematica_output ∘ joinpath)(__TSI111_nc_path, "case_2")
+const __TSI111_nc_one_vanishing_str = (__read_Mathematica_output ∘ joinpath)(__TSI111_nc_path, "one_vanishing")

@@ -1,0 +1,1 @@
+m1^2 + m1^2/eps - EulerGamma*m1^2 + m2^2 + m2^2/eps - EulerGamma*m2^2 - 4*m1^2*Log[m1] - 4*m2^2*Log[m2]

@@ -92,7 +92,7 @@
         This note is organized as follows:
         In Sec.~\ref{sec:reduction}, we reduce the two-loop sunrise Feynman integrals to the master integrals (MIs) via integration-by-part (IBP) techniques.
         In Sec.~\ref{sec:master-integral}, the MIs are evaluated and expanded into $\varepsilon$-series.
-        In Sec.~\ref{sec:implementation}, we introduce the implementation of the package.
+        % In Sec.~\ref{sec:implementation}, we introduce the implementation of the package.
         Finally, we conclude in Sec.~\ref{sec:conclusion}.
     
     \section{Integration-by-Part Reduction}\label{sec:reduction}
@@ -314,6 +314,7 @@
 
         \subsection{\boldmath Non-Collinear \texorpdfstring{$\TSI{111}$}{TSI-111}}
 
+            \paragraph{All non-vanishing masses.}
             For the master integral $\TSI{111}$, Eq.~(4.9) of Ref.~\cite{Davydychev:1992mt} shows
             \begin{equation}
                 \begin{aligned}
@@ -326,7 +327,7 @@
                 \end{aligned}
                 \label{eq:TSI-111}
             \end{equation}
-            where $m_1$, $m_2$, and $m_3$ are positive masses,
+            where $m_1, m_2, m_3 > 0$,
             \begin{equation}
                 \left\{
                     \begin{aligned}
@@ -363,7 +364,18 @@
             \end{enumerate}
             The $\varepsilon$-series expansions of $\TSI{111}$ are evaluated in \githubsrc[note/Mathematica\_notebooks/TSI111\_NC.nb] and stored in the directory \githubsrc[ext/TSI111\_nc/] for further use.
 
-    \section{Implementation}\label{sec:implementation}
+            \paragraph{One vanishing mass.}
+            For the case of $m_1 > m_2 > m_3 = 0$, Eq.~(31) in Ref.~\cite{Fleischer:1994ef} gives that
+            \begin{equation}
+                \begin{aligned}
+                    \TSI{111}[d, m_1, m_2, 0] & = \frac{\Gamma\qty(3 - \frac{d}{2}) \Gamma\qty(\frac{d}{2} - 1) \Gamma^2\qty(2 - \frac{d}{2})}{\Gamma^2(1) \Gamma\qty(\frac{d}{2}) \Gamma\qty(4 - d) \qty(m_1^2)^{3 - d}} \pFq{2}{1}{3 - d, 2 - \frac{d}{2}}{4 - d}{1 - \frac{m_2^2}{m_1^2}} \\
+                    & = \frac{m_1^2 + m_2^2}{\varepsilon} + \qty(1 - \eulergamma) \qty(m_1^2 + m_2^2) - 2 \qty(m_1^2 \ln m_1^2 + m_2^2 \ln m_2^2) + \order{\varepsilon},
+                \end{aligned}
+            \end{equation}
+            which is evaluated in \githubsrc[note/Mathematica\_notebooks/TSI111\_NC\_one\_vanishing.nb] and stored in the directory \githubsrc[ext/TSI111\_nc/] for further use.
+
+
+    % \section{Implementation}\label{sec:implementation}
 
     \section{Conclusion}\label{sec:conclusion}
 

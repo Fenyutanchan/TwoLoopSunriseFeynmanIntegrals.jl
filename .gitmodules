@@ -1,0 +1,3 @@
+[submodule "note/get_inspirehep_citations"]
+	path = note/get_inspirehep_citations
+	url = https://gist.github.com/Fenyutanchan/6059d6ca32cafe0350edbfac92c7872b

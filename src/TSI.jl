@@ -111,21 +111,31 @@ end
 function TSI_evaluation_111_NC(m₁, m₂, m₃, λ_gt_0_flag::Bool)
     @vars x, y, m1, eps, inveps
 
+    counter_vanishing_mass = sum(iszero, [m₁, m₂, m₃])
+
     all_rules = Dict{Basic, Any}(
         x => m₂^2 / m₁^2,
         y => m₃^2 / m₁^2,
         m1 => m₁,
+        m2 => m₂,
         eps => inveps^-1
     )
 
-    if λ_gt_0_flag
-        return subs(Basic(__TSI111_nc_case1_str), all_rules)
-    else
-        all_rules[Basic("ξxy")] = -__λ(1, x, y) / (4 * x * y)
-        all_rules[Basic("ξx")] = -__λ(1, x, 0) / (4 * x)
-        all_rules[Basic("ξy")] = -__λ(1, 0, y) / (4 * y)
+    if iszero(counter_vanishing_mass)
+        # if λ_gt_0_flag
+        #     return subs(Basic(__TSI111_nc_case1_str), all_rules)
+        # else
+        #     all_rules[Basic("ξxy")] = -__λ(1, x, y) / (4 * x * y)
+        #     all_rules[Basic("ξx")] = -__λ(1, x, 0) / (4 * x)
+        #     all_rules[Basic("ξy")] = -__λ(1, 0, y) / (4 * y)
 
-        return subs(Basic(__TSI111_nc_case2_str), all_rules)
+        #     return subs(Basic(__TSI111_nc_case2_str), all_rules)
+        # end
+        return subs(Basic(
+            λ_gt_0_flag ? __TSI111_nc_case1_str : __TSI111_nc_case2_str
+        ), all_rules)
+    elseif counter_vanishing_mass == 1
+        return subs(Basic(__TSI111_nc_one_vanishing_str), all_rules)
     end
 end
 
