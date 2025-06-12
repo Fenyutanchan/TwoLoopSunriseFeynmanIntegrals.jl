@@ -8,9 +8,7 @@ module TwoLoopSunriseFeynmanIntegrals
 using SpecialFunctions
 using SymEngine
 
-import FORM_jll
-
-export TSI_reduction
+export TSI_evaluation_NC, TSI_evaluation_CL
 
 include("utils.jl")
 

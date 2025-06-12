@@ -3,8 +3,6 @@
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
 
-include("run_FORM.jl")
-
 __λ(x, y, z) = x^2 + y^2 + z^2 - 2 * x * y - 2 * y * z - 2 * z * x # Källén triangle function
 
 function __read_Mathematica_output(file::String)
@@ -78,4 +76,14 @@ function __export_Mathematica_output(expr::Union{String, Basic})::String
     expr_str = replace(expr_str, "eulergamma" => "EulerGamma", "im" => "I")
 
     return expr_str
+end
+
+function __eps_series_cut(expr::Basic; max_eps_order::Int=2)::Basic
+    eps = Basic("eps")
+
+    expr = expand(expr)
+
+    new_expr = sum(ii -> coeff(expr, eps, Basic(ii)) * eps^ii, -2:max_eps_order)
+
+    return new_expr
 end
