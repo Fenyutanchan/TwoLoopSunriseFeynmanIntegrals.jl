@@ -1,5 +1,5 @@
-.vscode/
-tmp/
+*cache*
+*tmp*
 
 Manifest.toml
 xform*.str
