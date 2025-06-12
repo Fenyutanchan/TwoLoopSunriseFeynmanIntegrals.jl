@@ -75,7 +75,7 @@ function __export_Mathematica_output(expr::Union{String, Basic})::String
         end
     end
 
-    expr_str = replace(expr_str, "eulergamma" => "EulerGamma")
+    expr_str = replace(expr_str, "eulergamma" => "EulerGamma", "im" => "I")
 
     return expr_str
 end
