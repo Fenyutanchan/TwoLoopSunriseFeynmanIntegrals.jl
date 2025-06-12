@@ -1,3 +1,5 @@
 {
-    "julia.environmentPath": "${workspaceFolder}/"
+    "licenser.author": "Wen-Di Li <liwendi23@mails.ucas.ac.cn> and Quan-feng WU <wuquanfeng@ihep.ac.cn>",
+    "licenser.license": "MIT",
+    "licenser.projectName": "TwoLoopSunriseFeynmanIntegrals.jl"
 }

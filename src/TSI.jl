@@ -3,14 +3,11 @@
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
 
-function TSI_reduction_NC(ν₁::Int, ν₂::Int, ν₃::Int, m₁, m₂, m₃;
-    multithreading_flag::Bool=false,
-    num_threads::Int=Threads.nthreads()
-)
+function TSI_reduction_NC(ν₁::Int, ν₂::Int, ν₃::Int, m₁, m₂, m₃)
     @assert all(≥(0), [ν₁, ν₂, ν₃])
     @assert (!iszero ∘ expand ∘ Basic ∘ __λ)(m₁^2, m₂^2, m₃^2)
 
-    sum(iszero, [ν₁, ν₂, ν₃]) ≥ 2 && return zero(Basic)
+    count(iszero, [ν₁, ν₂, ν₃]) ≥ 2 && return zero(Basic)
     any(iszero, [ν₁, ν₂, ν₃]) && return TSI_head(ν₁, ν₂, ν₃, m₁, m₂, m₃)
     ν₁ == ν₂ == ν₃ == 1 && return TSI_head(ν₁, ν₂, ν₃, m₁, m₂, m₃)
 
@@ -24,11 +21,11 @@ function TSI_reduction_NC(ν₁::Int, ν₂::Int, ν₃::Int, m₁, m₂, m₃;
             Basic("m1") => m₁, Basic("m2") => m₂, Basic("m3") => m₃
         )
 
-        subs(Basic(__ibp_nc_invAdotB_1_1_str), replace_rule) * TSI_reduction_NC(a1, a2, a3, m₁, m₂, m₃; multithreading_flag=multithreading_flag, num_threads=num_threads) +
-            subs(Basic(__ibp_nc_invAdotB_1_2_str), replace_rule) * TSI_reduction_NC(a1, a2 + 1, a3 - 1, m₁, m₂, m₃; multithreading_flag=multithreading_flag, num_threads=num_threads) +
-            subs(Basic(__ibp_nc_invAdotB_1_3_str), replace_rule) * TSI_reduction_NC(a1, a2 - 1, a3 + 1, m₁, m₂, m₃; multithreading_flag=multithreading_flag, num_threads=num_threads) +
-            subs(Basic(__ibp_nc_invAdotB_1_4_str), replace_rule) * TSI_reduction_NC(a1 - 1, a2 + 1, a3, m₁, m₂, m₃; multithreading_flag=multithreading_flag, num_threads=num_threads) +
-            subs(Basic(__ibp_nc_invAdotB_1_5_str), replace_rule) * TSI_reduction_NC(a1 - 1, a2, a3 + 1, m₁, m₂, m₃; multithreading_flag=multithreading_flag, num_threads=num_threads)
+        subs(Basic(__ibp_nc_invAdotB_1_1_str), replace_rule) * TSI_reduction_NC(a1, a2, a3, m₁, m₂, m₃) +
+            subs(Basic(__ibp_nc_invAdotB_1_2_str), replace_rule) * TSI_reduction_NC(a1, a2 + 1, a3 - 1, m₁, m₂, m₃) +
+            subs(Basic(__ibp_nc_invAdotB_1_3_str), replace_rule) * TSI_reduction_NC(a1, a2 - 1, a3 + 1, m₁, m₂, m₃) +
+            subs(Basic(__ibp_nc_invAdotB_1_4_str), replace_rule) * TSI_reduction_NC(a1 - 1, a2 + 1, a3, m₁, m₂, m₃) +
+            subs(Basic(__ibp_nc_invAdotB_1_5_str), replace_rule) * TSI_reduction_NC(a1 - 1, a2, a3 + 1, m₁, m₂, m₃)
     elseif max_ν == ν₂
         a1, a2, a3 = ν₁, ν₂ - 1, ν₃
 
@@ -37,11 +34,11 @@ function TSI_reduction_NC(ν₁::Int, ν₂::Int, ν₃::Int, m₁, m₂, m₃;
             Basic("m1") => m₁, Basic("m2") => m₂, Basic("m3") => m₃
         )
 
-        subs(Basic(__ibp_nc_invAdotB_2_1_str), replace_rule) * TSI_reduction_NC(a1, a2, a3, m₁, m₂, m₃; multithreading_flag=multithreading_flag, num_threads=num_threads) +
-            subs(Basic(__ibp_nc_invAdotB_2_2_str), replace_rule) * TSI_reduction_NC(a1, a2 + 1, a3 - 1, m₁, m₂, m₃; multithreading_flag=multithreading_flag, num_threads=num_threads) +
-            subs(Basic(__ibp_nc_invAdotB_2_3_str), replace_rule) * TSI_reduction_NC(a1, a2 - 1, a3 + 1, m₁, m₂, m₃; multithreading_flag=multithreading_flag, num_threads=num_threads) +
-            subs(Basic(__ibp_nc_invAdotB_2_4_str), replace_rule) * TSI_reduction_NC(a1 - 1, a2 + 1, a3, m₁, m₂, m₃; multithreading_flag=multithreading_flag, num_threads=num_threads) +
-            subs(Basic(__ibp_nc_invAdotB_2_5_str), replace_rule) * TSI_reduction_NC(a1 - 1, a2, a3 + 1, m₁, m₂, m₃; multithreading_flag=multithreading_flag, num_threads=num_threads)
+        subs(Basic(__ibp_nc_invAdotB_2_1_str), replace_rule) * TSI_reduction_NC(a1, a2, a3, m₁, m₂, m₃) +
+            subs(Basic(__ibp_nc_invAdotB_2_2_str), replace_rule) * TSI_reduction_NC(a1, a2 + 1, a3 - 1, m₁, m₂, m₃) +
+            subs(Basic(__ibp_nc_invAdotB_2_3_str), replace_rule) * TSI_reduction_NC(a1, a2 - 1, a3 + 1, m₁, m₂, m₃) +
+            subs(Basic(__ibp_nc_invAdotB_2_4_str), replace_rule) * TSI_reduction_NC(a1 - 1, a2 + 1, a3, m₁, m₂, m₃) +
+            subs(Basic(__ibp_nc_invAdotB_2_5_str), replace_rule) * TSI_reduction_NC(a1 - 1, a2, a3 + 1, m₁, m₂, m₃)
     else
         a1, a2, a3 = ν₁, ν₂, ν₃ - 1
 
@@ -50,19 +47,14 @@ function TSI_reduction_NC(ν₁::Int, ν₂::Int, ν₃::Int, m₁, m₂, m₃;
             Basic("m1") => m₁, Basic("m2") => m₂, Basic("m3") => m₃
         )
 
-        subs(Basic(__ibp_nc_invAdotB_3_1_str), replace_rule) * TSI_reduction_NC(a1, a2, a3, m₁, m₂, m₃; multithreading_flag=multithreading_flag, num_threads=num_threads) +
-            subs(Basic(__ibp_nc_invAdotB_3_2_str), replace_rule) * TSI_reduction_NC(a1, a2 + 1, a3 - 1, m₁, m₂, m₃; multithreading_flag=multithreading_flag, num_threads=num_threads) +
-            subs(Basic(__ibp_nc_invAdotB_3_3_str), replace_rule) * TSI_reduction_NC(a1, a2 - 1, a3 + 1, m₁, m₂, m₃; multithreading_flag=multithreading_flag, num_threads=num_threads) +
-            subs(Basic(__ibp_nc_invAdotB_3_4_str), replace_rule) * TSI_reduction_NC(a1 - 1, a2 + 1, a3, m₁, m₂, m₃; multithreading_flag=multithreading_flag, num_threads=num_threads) +
-            subs(Basic(__ibp_nc_invAdotB_3_5_str), replace_rule) * TSI_reduction_NC(a1 - 1, a2, a3 + 1, m₁, m₂, m₃; multithreading_flag=multithreading_flag, num_threads=num_threads)
+        subs(Basic(__ibp_nc_invAdotB_3_1_str), replace_rule) * TSI_reduction_NC(a1, a2, a3, m₁, m₂, m₃) +
+            subs(Basic(__ibp_nc_invAdotB_3_2_str), replace_rule) * TSI_reduction_NC(a1, a2 + 1, a3 - 1, m₁, m₂, m₃) +
+            subs(Basic(__ibp_nc_invAdotB_3_3_str), replace_rule) * TSI_reduction_NC(a1, a2 - 1, a3 + 1, m₁, m₂, m₃) +
+            subs(Basic(__ibp_nc_invAdotB_3_4_str), replace_rule) * TSI_reduction_NC(a1 - 1, a2 + 1, a3, m₁, m₂, m₃) +
+            subs(Basic(__ibp_nc_invAdotB_3_5_str), replace_rule) * TSI_reduction_NC(a1 - 1, a2, a3 + 1, m₁, m₂, m₃)
     end
 
-    return TSI_simplify(expr;
-        multithreading_flag=multithreading_flag,
-        num_threads=num_threads,
-        output_type=Basic,
-        remove_eps_flag=false
-    )
+    return eps_series_cut(expr)
 end
 
 function TSI_evaluation_NC(ν₁::Int, ν₂::Int, ν₃::Int, m₁, m₂, m₃; λ_gt_0_flag::Bool=true)
@@ -76,24 +68,24 @@ function TSI_evaluation_NC(ν₁::Int, ν₂::Int, ν₃::Int, m₁, m₂, m₃;
             νᵢ = [ν₁, ν₂, ν₃][ii]
             mᵢ = [m₁, m₂, m₃][ii]
 
-            m_inveps_rule = Dict(
+            expr_rule = Dict(
                 Basic("a") => νᵢ,
                 Basic("m") => mᵢ,
-                Basic("eps") => Basic("inveps^-1")
             )
 
             output *= if νᵢ == 1
-                (expand ∘ subs)(Basic(__one_loop_1_str), m_inveps_rule)
+                (expand ∘ subs)(Basic(__one_loop_1_str), expr_rule)
             elseif νᵢ == 2
-                (expand ∘ subs)(Basic(__one_loop_2_str), m_inveps_rule)
+                (expand ∘ subs)(Basic(__one_loop_2_str), expr_rule)
             else
-                (expand ∘ subs)(Basic(__one_loop_gt_2_str), m_inveps_rule)
+                (expand ∘ subs)(Basic(__one_loop_gt_2_str), expr_rule)
             end
         end
-        return TSI_simplify(output;
-            output_type=Basic,
-            remove_eps_flag=false
-        )
+        return eps_series_cut(output; max_eps_order=0)
+        # TSI_simplify(output;
+        #     output_type=Basic,
+        #     remove_eps_flag=false
+        # )
     end
     ν₁ == ν₂ == ν₃ == 1 && return TSI_evaluation_111_NC(m₁, m₂, m₃, λ_gt_0_flag)
 
@@ -112,7 +104,7 @@ function TSI_evaluation_NC(ν₁::Int, ν₂::Int, ν₃::Int, m₁, m₂, m₃;
 end
 
 function TSI_evaluation_111_NC(m₁, m₂, m₃, λ_gt_0_flag::Bool)
-    @vars x, y, m1, m2, eps, inveps
+    @vars x, y, m1, m2, eps
 
     counter_vanishing_mass = sum(iszero, [m₁, m₂, m₃])
 
@@ -121,7 +113,6 @@ function TSI_evaluation_111_NC(m₁, m₂, m₃, λ_gt_0_flag::Bool)
         y => m₃^2 / m₁^2,
         m1 => m₁,
         m2 => m₂,
-        eps => inveps^-1
     )
 
     if iszero(counter_vanishing_mass)
@@ -147,13 +138,10 @@ function TSI_evaluation_111_NC(m₁, m₂, m₃, λ_gt_0_flag::Bool)
     end
 end
 
-function TSI_reduction_CL(ν₁::Int, ν₂::Int, ν₃::Int, m₂, m₃;
-    multithreading_flag::Bool=false,
-    num_threads::Int=Threads.nthreads()
-)
+function TSI_reduction_CL(ν₁::Int, ν₂::Int, ν₃::Int, m₂, m₃)
     @assert all(≥(0), [ν₁, ν₂, ν₃])
 
-    sum(iszero, [ν₁, ν₂, ν₃]) ≥ 2 && return zero(Basic)
+    count(iszero, [ν₁, ν₂, ν₃]) ≥ 2 && return zero(Basic)
     any(iszero, [ν₁, ν₂, ν₃]) && return TSI_head(ν₁, ν₂, ν₃, m₂ + m₃, m₂, m₃)
 
     replace_rule = Dict{Basic, Any}(
@@ -162,41 +150,34 @@ function TSI_reduction_CL(ν₁::Int, ν₂::Int, ν₃::Int, m₂, m₃;
         Basic("m1") => m₂ + m₃, Basic("m2") => m₂, Basic("m3") => m₃
     )
 
-    expr = subs(Basic(__ibp_cl_coeff_1_str), replace_rule) * TSI_reduction_CL(ν₁ - 1, ν₂, ν₃, m₂, m₃; multithreading_flag=multithreading_flag, num_threads=num_threads) +
-        subs(Basic(__ibp_cl_coeff_2_str), replace_rule) * TSI_reduction_CL(ν₁, ν₂ - 1, ν₃, m₂, m₃; multithreading_flag=multithreading_flag, num_threads=num_threads) +
-        subs(Basic(__ibp_cl_coeff_3_str), replace_rule) * TSI_reduction_CL(ν₁, ν₂, ν₃ - 1, m₂, m₃; multithreading_flag=multithreading_flag, num_threads=num_threads)
+    expr = subs(Basic(__ibp_cl_coeff_1_str), replace_rule) * TSI_reduction_CL(ν₁ - 1, ν₂, ν₃, m₂, m₃) +
+        subs(Basic(__ibp_cl_coeff_2_str), replace_rule) * TSI_reduction_CL(ν₁, ν₂ - 1, ν₃, m₂, m₃) +
+        subs(Basic(__ibp_cl_coeff_3_str), replace_rule) * TSI_reduction_CL(ν₁, ν₂, ν₃ - 1, m₂, m₃)
 
-    return TSI_simplify(expr;
-        multithreading_flag=multithreading_flag,
-        num_threads=num_threads,
-        output_type=Basic,
-        max_eps_order=1,
-        remove_eps_flag=false
-    )
+    return eps_series_cut(expr; max_eps_order=1)
 end
 
 function TSI_evaluation_CL(ν₁::Int, ν₂::Int, ν₃::Int, m₂, m₃)
     @assert all(≥(0), [ν₁, ν₂, ν₃])
 
-    sum(iszero, [ν₁, ν₂, ν₃]) ≥ 2 && return zero(Basic)
+    count(iszero, [ν₁, ν₂, ν₃]) ≥ 2 && return zero(Basic)
     if any(iszero, [ν₁, ν₂, ν₃])
         output = zero(Basic)
         for ii ∈ findall(!iszero, [ν₁, ν₂, ν₃])
             νᵢ = [ν₁, ν₂, ν₃][ii]
             mᵢ = [m₂ + m₃, m₂, m₃][ii]
 
-            m_inveps_rule = Dict(
-                Basic("a") => ν₁ + ν₂ + ν₃,
+            expr_rule = Dict(
+                Basic("a") => νᵢ,
                 Basic("m") => mᵢ,
-                Basic("eps") => Basic("inveps^-1")
             )
 
-            output += if νᵢ == 1
-                (expand ∘ subs)(Basic(__one_loop_1_str), m_inveps_rule)
+            output *= if νᵢ == 1
+                (expand ∘ subs)(Basic(__one_loop_1_str), expr_rule)
             elseif νᵢ == 2
-                (expand ∘ subs)(Basic(__one_loop_2_str), m_inveps_rule)
+                (expand ∘ subs)(Basic(__one_loop_2_str), expr_rule)
             else
-                (expand ∘ subs)(Basic(__one_loop_gt_2_str), m_inveps_rule)
+                (expand ∘ subs)(Basic(__one_loop_gt_2_str), expr_rule)
             end
         end
         return output
@@ -216,46 +197,12 @@ function TSI_evaluation_CL(ν₁::Int, ν₂::Int, ν₃::Int, m₂, m₃)
     return subs(expr_reduction, TSI_rules)
 end
 
-function TSI_simplify(expr::Basic;
-    multithreading_flag::Bool=false,
-    num_threads::Int=Threads.nthreads(),
-    output_type::Type{T}=String,
-    max_eps_order::Int=2,
-    remove_eps_flag::Bool=true
-)::T where T <: Union{Basic, String}
-    all_symbols = free_symbols(expr)
+function eps_series_cut(expr::Basic; max_eps_order::Int=2)::Basic
+    eps = Basic("eps")
 
-    union!(all_symbols, [Basic("eps"), Basic("inveps"), Basic("EulerGamma"), Basic("pi")])
+    expr = expand(expr)
 
-    form_script = """
-    #-
+    new_expr = sum(ii -> coeff(expr, eps, Basic(ii)) * eps^ii, -2:max_eps_order)
 
-    Format maple;
-    Format nospaces;
-
-    Off Statistics;
-
-    CFunction TSI, log, polylog, sqrt, log, zeta;
-    Symbol $(join(all_symbols, ","));
-
-    Local expr = $(expr);
-    id inveps * eps = 1;
-    .sort
-
-    id eps^$(max_eps_order + 1) = 0;
-    id inveps^$(-max_eps_order - 1) = 0;
-    .sort
-
-    $(remove_eps_flag ? "id eps = 0;\n.sort" : "")
-
-    #write "%E" expr
-    .sort
-
-    .end
-    """
-
-    expr_str = __run_FORM_content(form_script; multithreading_flag=multithreading_flag, num_threads=num_threads)
-    expr_str = replace(expr_str, '\n' => "", '\\' => "", ' ' => "")
-
-    return output_type(expr_str)
+    return new_expr
 end
