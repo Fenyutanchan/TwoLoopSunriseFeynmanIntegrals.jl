@@ -82,10 +82,6 @@ function TSI_evaluation_NC(ν₁::Int, ν₂::Int, ν₃::Int, m₁, m₂, m₃;
             end
         end
         return eps_series_cut(output; max_eps_order=0)
-        # TSI_simplify(output;
-        #     output_type=Basic,
-        #     remove_eps_flag=false
-        # )
     end
     ν₁ == ν₂ == ν₃ == 1 && return TSI_evaluation_111_NC(m₁, m₂, m₃, λ_gt_0_flag)
 
@@ -100,7 +96,7 @@ function TSI_evaluation_NC(ν₁::Int, ν₂::Int, ν₃::Int, m₁, m₂, m₃;
         TSI_rules[one_TSI] = TSI_evaluation_NC(ν_list..., m_list...; λ_gt_0_flag=λ_gt_0_flag)
     end
 
-    return subs(expr_reduction, TSI_rules)
+    return eps_series_cut(subs(expr_reduction, TSI_rules); max_eps_order=0)
 end
 
 function TSI_evaluation_111_NC(m₁, m₂, m₃, λ_gt_0_flag::Bool)
@@ -145,7 +141,6 @@ function TSI_reduction_CL(ν₁::Int, ν₂::Int, ν₃::Int, m₂, m₃)
     any(iszero, [ν₁, ν₂, ν₃]) && return TSI_head(ν₁, ν₂, ν₃, m₂ + m₃, m₂, m₃)
 
     replace_rule = Dict{Basic, Any}(
-        Basic("a") => ν₁ + ν₂ + ν₃,
         Basic("a1") => ν₁, Basic("a2") => ν₂, Basic("a3") => ν₃,
         Basic("m1") => m₂ + m₃, Basic("m2") => m₂, Basic("m3") => m₃
     )
@@ -154,7 +149,7 @@ function TSI_reduction_CL(ν₁::Int, ν₂::Int, ν₃::Int, m₂, m₃)
         subs(Basic(__ibp_cl_coeff_2_str), replace_rule) * TSI_reduction_CL(ν₁, ν₂ - 1, ν₃, m₂, m₃) +
         subs(Basic(__ibp_cl_coeff_3_str), replace_rule) * TSI_reduction_CL(ν₁, ν₂, ν₃ - 1, m₂, m₃)
 
-    return eps_series_cut(expr; max_eps_order=1)
+    return eps_series_cut(expr)
 end
 
 function TSI_evaluation_CL(ν₁::Int, ν₂::Int, ν₃::Int, m₂, m₃)
@@ -162,7 +157,7 @@ function TSI_evaluation_CL(ν₁::Int, ν₂::Int, ν₃::Int, m₂, m₃)
 
     count(iszero, [ν₁, ν₂, ν₃]) ≥ 2 && return zero(Basic)
     if any(iszero, [ν₁, ν₂, ν₃])
-        output = zero(Basic)
+        output = one(Basic)
         for ii ∈ findall(!iszero, [ν₁, ν₂, ν₃])
             νᵢ = [ν₁, ν₂, ν₃][ii]
             mᵢ = [m₂ + m₃, m₂, m₃][ii]
@@ -180,7 +175,7 @@ function TSI_evaluation_CL(ν₁::Int, ν₂::Int, ν₃::Int, m₂, m₃)
                 (expand ∘ subs)(Basic(__one_loop_gt_2_str), expr_rule)
             end
         end
-        return output
+        return eps_series_cut(output; max_eps_order=0)
     end
 
     expr_reduction = TSI_reduction_CL(ν₁, ν₂, ν₃, m₂, m₃)
@@ -194,7 +189,7 @@ function TSI_evaluation_CL(ν₁::Int, ν₂::Int, ν₃::Int, m₂, m₃)
         TSI_rules[one_TSI] = TSI_evaluation_CL(ν_list..., m_list...)
     end
 
-    return subs(expr_reduction, TSI_rules)
+    return eps_series_cut(subs(expr_reduction, TSI_rules); max_eps_order=0)
 end
 
 function eps_series_cut(expr::Basic; max_eps_order::Int=2)::Basic
