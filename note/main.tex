@@ -12,7 +12,7 @@
     \addbibresource{from_inspirehep.bib}
     \addbibresource{others.bib}
 \usepackage{fontawesome5}
-\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[a4paper, margin=2.2cm]{geometry}
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage[
@@ -69,7 +69,7 @@
 
     \section{Introduction}
 
-        We provide a \textsc{Julia}\footnote{\url{https://julialang.org}} package \texttt{TwoLoopSunriseFeynmanIntegrals.jl}\footnote{\githubsrc} for two-loop sunrise Feynman integrals\footnote{We suggest Refs.~\cite{Smirnov:2012gma, Weinzierl:2022eaz} for pedagogical introduction to Feynman integrals.}, which reads \cite[Eq.~(2.56)]{Weinzierl:2022eaz}\footnote{For simplicity, the prefactor $\ee^{2 \varepsilon \eulergamma} \qty(\mu^2)^{\nu - d}$ with $\nu \equiv \nu_1 + \nu_2 + \nu_3$ for the \emph{modified minimal subtraction scheme} is omitted here.}
+        We provide a \textsc{Julia}\footnote{See \url{https://julialang.org}.} package \texttt{TwoLoopSunriseFeynmanIntegrals.jl}\footnote{See \githubsrc.} for two-loop sunrise Feynman integrals\footnote{We suggest Refs.~\cite{Smirnov:2012gma, Weinzierl:2022eaz} for pedagogical introduction to Feynman integrals.}, which reads \cite[Eq.~(2.56)]{Weinzierl:2022eaz}\footnote{For simplicity, the prefactor $\ee^{2 \varepsilon \eulergamma} \qty(\mu^2)^{\nu - d}$ with $\nu \equiv \nu_1 + \nu_2 + \nu_3$ for the \emph{modified minimal subtraction scheme} is omitted here.}
         \begin{equation}
             \TSI{\nu_1, \nu_2, \nu_3}[d, m_1, m_2, m_3] \coloneq \int \frac{\tildedp{q_1} ~ \tildedp{q_2}}{\qmOne* \qmTwo* \qmThree*},
         \end{equation}
@@ -386,6 +386,12 @@
             which is evaluated in \githubsrc[note/Mathematica\_notebooks/TSI111\_NC\_two\_vanishing.nb] and stored in the directory \githubsrc[ext/TSI111\_nc/] for further use.
 
     % \section{Implementation}\label{sec:implementation}
+
+    \section{Test}\label{sec:test}
+
+        The \textsc{Wolfram Mathematica} package \textsc{AMFlow}\footnote{See \url{https://gitlab.com/MultiLoop-PKU/AMFlow.git}.} \cite{Liu:2022chg} provides an efficient way to evaluate the Feynman integrals numerically.
+        With the IBP option \texttt{"FiniteFlow+LiteRed"} provided by \textsc{FiniteFlow}\footnote{See \url{https://github.com/peraro/FiniteFlow.git} and \url{https://github.com/peraro/FiniteFlow-MathTools.git}.} \cite{Peraro:2019svx} and \textsc{LiteRed}\footnote{\url{https://www.inp.nsk.su/~lee/programs/LiteRed/}} \cite{Lee:2012cn, Lee:2013mka}, we provide several scripts to generate the results via \textsc{AMFlow} and compare them with our results.
+        See the directory \githubsrc[ext/test/] for the details.
 
     \section{Conclusion}\label{sec:conclusion}
 

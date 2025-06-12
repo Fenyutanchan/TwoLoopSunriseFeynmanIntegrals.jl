@@ -230,6 +230,158 @@
       \verb hep-ph/9403230
       \endverb
     \endentry
+    \entry{Liu:2022chg}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=dd8304255c910bcbd7d7d0cb4f7ed860}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Xiao},
+           giveni={X\bibinitperiod}}}%
+        {{hash=39b41ba18c1a81509cdb8f084c02055b}{%
+           family={Ma},
+           familyi={M\bibinitperiod},
+           given={Yan-Qing},
+           giveni={Y\bibinithyphendelim Q\bibinitperiod}}}%
+      }
+      \strng{namehash}{eb79e22c5c9b26877713ef034055d638}
+      \strng{fullhash}{eb79e22c5c9b26877713ef034055d638}
+      \strng{fullhashraw}{eb79e22c5c9b26877713ef034055d638}
+      \strng{bibnamehash}{eb79e22c5c9b26877713ef034055d638}
+      \strng{authorbibnamehash}{eb79e22c5c9b26877713ef034055d638}
+      \strng{authornamehash}{eb79e22c5c9b26877713ef034055d638}
+      \strng{authorfullhash}{eb79e22c5c9b26877713ef034055d638}
+      \strng{authorfullhashraw}{eb79e22c5c9b26877713ef034055d638}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{hep-ph}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{Comput. Phys. Commun.}
+      \field{title}{{AMFlow: A Mathematica package for Feynman integrals computation via auxiliary mass flow}}
+      \field{volume}{283}
+      \field{year}{2023}
+      \field{pages}{108565}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.cpc.2022.108565
+      \endverb
+      \verb{eprint}
+      \verb 2201.11669
+      \endverb
+    \endentry
+    \entry{Peraro:2019svx}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=dfce9a2429d07ac6175edf0b3f6c08ed}{%
+           family={Peraro},
+           familyi={P\bibinitperiod},
+           given={Tiziano},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{dfce9a2429d07ac6175edf0b3f6c08ed}
+      \strng{fullhash}{dfce9a2429d07ac6175edf0b3f6c08ed}
+      \strng{fullhashraw}{dfce9a2429d07ac6175edf0b3f6c08ed}
+      \strng{bibnamehash}{dfce9a2429d07ac6175edf0b3f6c08ed}
+      \strng{authorbibnamehash}{dfce9a2429d07ac6175edf0b3f6c08ed}
+      \strng{authornamehash}{dfce9a2429d07ac6175edf0b3f6c08ed}
+      \strng{authorfullhash}{dfce9a2429d07ac6175edf0b3f6c08ed}
+      \strng{authorfullhashraw}{dfce9a2429d07ac6175edf0b3f6c08ed}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{hep-ph}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{JHEP}
+      \field{title}{{$\text{FiniteFlow}$: multivariate functional reconstruction using finite fields and dataflow graphs}}
+      \field{volume}{07}
+      \field{year}{2019}
+      \field{pages}{031}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1007/JHEP07(2019)031
+      \endverb
+      \verb{eprint}
+      \verb 1905.08019
+      \endverb
+    \endentry
+    \entry{Lee:2012cn}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=ca2c14e677e7b7118e5b0abb8499a11e}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={R.\bibnamedelimi N.},
+           giveni={R\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+      }
+      \strng{namehash}{ca2c14e677e7b7118e5b0abb8499a11e}
+      \strng{fullhash}{ca2c14e677e7b7118e5b0abb8499a11e}
+      \strng{fullhashraw}{ca2c14e677e7b7118e5b0abb8499a11e}
+      \strng{bibnamehash}{ca2c14e677e7b7118e5b0abb8499a11e}
+      \strng{authorbibnamehash}{ca2c14e677e7b7118e5b0abb8499a11e}
+      \strng{authornamehash}{ca2c14e677e7b7118e5b0abb8499a11e}
+      \strng{authorfullhash}{ca2c14e677e7b7118e5b0abb8499a11e}
+      \strng{authorfullhashraw}{ca2c14e677e7b7118e5b0abb8499a11e}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{hep-ph}
+      \field{eprinttype}{arXiv}
+      \field{month}{12}
+      \field{title}{{Presenting LiteRed: a tool for the Loop InTEgrals REDuction}}
+      \field{year}{2012}
+      \verb{eprint}
+      \verb 1212.2685
+      \endverb
+    \endentry
+    \entry{Lee:2013mka}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=19f15127ba619851123611e021131ef3}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Roman\bibnamedelima N.},
+           giveni={R\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+      }
+      \name{editor}{1}{}{%
+        {{hash=8a555e6c02b0d903ccf72f4b45d652c5}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Jianxiong},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{19f15127ba619851123611e021131ef3}
+      \strng{fullhash}{19f15127ba619851123611e021131ef3}
+      \strng{fullhashraw}{19f15127ba619851123611e021131ef3}
+      \strng{bibnamehash}{19f15127ba619851123611e021131ef3}
+      \strng{authorbibnamehash}{19f15127ba619851123611e021131ef3}
+      \strng{authornamehash}{19f15127ba619851123611e021131ef3}
+      \strng{authorfullhash}{19f15127ba619851123611e021131ef3}
+      \strng{authorfullhashraw}{19f15127ba619851123611e021131ef3}
+      \strng{editorbibnamehash}{8a555e6c02b0d903ccf72f4b45d652c5}
+      \strng{editornamehash}{8a555e6c02b0d903ccf72f4b45d652c5}
+      \strng{editorfullhash}{8a555e6c02b0d903ccf72f4b45d652c5}
+      \strng{editorfullhashraw}{8a555e6c02b0d903ccf72f4b45d652c5}
+      \field{extraname}{2}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{hep-ph}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{J. Phys. Conf. Ser.}
+      \field{title}{{LiteRed 1.4: a powerful tool for reduction of multiloop integrals}}
+      \field{volume}{523}
+      \field{year}{2014}
+      \field{pages}{012059}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1088/1742-6596/523/1/012059
+      \endverb
+      \verb{eprint}
+      \verb 1310.1145
+      \endverb
+    \endentry
   \enddatalist
 \endrefsection
 \endinput
