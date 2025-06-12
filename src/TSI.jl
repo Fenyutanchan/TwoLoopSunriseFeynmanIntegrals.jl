@@ -109,7 +109,7 @@ function TSI_evaluation_NC(ν₁::Int, ν₂::Int, ν₃::Int, m₁, m₂, m₃;
 end
 
 function TSI_evaluation_111_NC(m₁, m₂, m₃, λ_gt_0_flag::Bool)
-    @vars x, y, m1, eps, inveps
+    @vars x, y, m1, m2, eps, inveps
 
     counter_vanishing_mass = sum(iszero, [m₁, m₂, m₃])
 
@@ -250,7 +250,8 @@ function TSI_simplify(expr::Basic;
     .end
     """
 
-    expr_str = (output_type ∘ __run_FORM_content)(form_script; multithreading_flag=multithreading_flag, num_threads=num_threads)
+    expr_str = __run_FORM_content(form_script; multithreading_flag=multithreading_flag, num_threads=num_threads)
+    expr_str = replace(expr_str, '\n' => "", '\\' => "", ' ' => "")
 
-    return expr_str
+    return output_type(expr_str)
 end

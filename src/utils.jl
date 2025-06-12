@@ -10,7 +10,7 @@ __λ(x, y, z) = x^2 + y^2 + z^2 - 2 * x * y - 2 * y * z - 2 * z * x # Källén t
 function __read_Mathematica_output(file::String)
     @assert isfile(file)
 
-    Mathemematica_replace_dict = Dict{Union{Char, String}, Union{Char, String}}(
+    Mathematica_replace_dict = Dict{Union{Char, String}, Union{Char, String}}(
         '[' => '(', ']' => ')',
         "Log" => "log",
         "Polylog" => "polylog",
@@ -20,7 +20,7 @@ function __read_Mathematica_output(file::String)
     )
 
     output_str = read(file, String)
-    for (key, value) in Mathemematica_replace_dict
+    for (key, value) in Mathematica_replace_dict
         output_str = replace(output_str, key => value)
     end
 
