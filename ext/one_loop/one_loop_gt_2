@@ -1,1 +1,1 @@
-(m^2)^(2 - a)/((-2 + a)*(-1 + a))
+(m^4*Gamma[-2 + a]*(2 + eps*Log[m^2]*(-2 + eps*Log[m^2]) + eps*(PolyGamma[0, -2 + a]*(2 - 2*eps*Log[m^2] + eps*PolyGamma[0, -2 + a]) + eps*PolyGamma[1, -2 + a])))/(2*(m^2)^a*Gamma[a])

@@ -1,1 +1,1 @@
-(m^2*(-1 + eps*(-1 + EulerGamma) + eps*Log[m^2]))/eps
+(m^2*(-12 + eps*(12*(-1 + EulerGamma) + 2*eps*(-6 - 6*eps - 3*(-2 + EulerGamma)*EulerGamma + eps*EulerGamma*(6 + (-3 + EulerGamma)*EulerGamma)) + eps*(-1 + eps*(-1 + EulerGamma))*Pi^2) + eps*Log[m^2]*(12 - 12*eps*(-1 + EulerGamma) + eps^2*(12 + 6*(-2 + EulerGamma)*EulerGamma + Pi^2) + 2*eps*Log[m^2]*(-3 + 3*eps*(-1 + EulerGamma) + eps*Log[m^2])) + 4*eps^3*Zeta[3]))/(12*eps)

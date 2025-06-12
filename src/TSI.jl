@@ -69,20 +69,20 @@ function TSI_evaluation_NC(ν₁::Int, ν₂::Int, ν₃::Int, m₁, m₂, m₃;
     @assert all(≥(0), [ν₁, ν₂, ν₃])
     @assert (!iszero ∘ expand ∘ Basic ∘ __λ)(m₁^2, m₂^2, m₃^2)
 
-    sum(iszero, [ν₁, ν₂, ν₃]) ≥ 2 && return zero(Basic)
+    count(iszero, [ν₁, ν₂, ν₃]) ≥ 2 && return zero(Basic)
     if any(iszero, [ν₁, ν₂, ν₃])
-        output = zero(Basic)
+        output = one(Basic)
         for ii ∈ findall(!iszero, [ν₁, ν₂, ν₃])
             νᵢ = [ν₁, ν₂, ν₃][ii]
             mᵢ = [m₁, m₂, m₃][ii]
 
             m_inveps_rule = Dict(
-                Basic("a") => ν₁ + ν₂ + ν₃,
+                Basic("a") => νᵢ,
                 Basic("m") => mᵢ,
                 Basic("eps") => Basic("inveps^-1")
             )
 
-            output += if νᵢ == 1
+            output *= if νᵢ == 1
                 (expand ∘ subs)(Basic(__one_loop_1_str), m_inveps_rule)
             elseif νᵢ == 2
                 (expand ∘ subs)(Basic(__one_loop_2_str), m_inveps_rule)
@@ -90,7 +90,10 @@ function TSI_evaluation_NC(ν₁::Int, ν₂::Int, ν₃::Int, m₁, m₂, m₃;
                 (expand ∘ subs)(Basic(__one_loop_gt_2_str), m_inveps_rule)
             end
         end
-        return output
+        return TSI_simplify(output;
+            output_type=Basic,
+            remove_eps_flag=false
+        )
     end
     ν₁ == ν₂ == ν₃ == 1 && return TSI_evaluation_111_NC(m₁, m₂, m₃, λ_gt_0_flag)
 
@@ -232,14 +235,15 @@ function TSI_simplify(expr::Basic;
 
     Off Statistics;
 
-    CFunction TSI, log, polylog, sqrt, log;
+    CFunction TSI, log, polylog, sqrt, log, zeta;
     Symbol $(join(all_symbols, ","));
 
     Local expr = $(expr);
-    id eps^$(max_eps_order + 1) = 0;
+    id inveps * eps = 1;
     .sort
 
-    id inveps * eps = 1;
+    id eps^$(max_eps_order + 1) = 0;
+    id inveps^$(-max_eps_order - 1) = 0;
     .sort
 
     $(remove_eps_flag ? "id eps = 0;\n.sort" : "")

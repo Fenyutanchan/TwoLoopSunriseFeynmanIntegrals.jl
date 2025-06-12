@@ -12,11 +12,13 @@ function __read_Mathematica_output(file::String)
 
     Mathematica_replace_dict = Dict{Union{Char, String}, Union{Char, String}}(
         '[' => '(', ']' => ')',
+        "Euler" => "euler",
+        "Gamma" => "gamma",
         "Log" => "log",
-        "Polylog" => "polylog",
-        "PolyLog" => "polylog",
+        "Pi" => "pi",
+        "Poly" => "poly",
         "Sqrt" => "sqrt",
-        "Pi" => "pi"
+        "Zeta" => "zeta",
     )
 
     output_str = read(file, String)
@@ -31,11 +33,13 @@ function __export_Mathematica_output(expr::Union{String, Basic})::String
     expr_str = string(expr)
 
     Mathematica_replace_dict = Dict{Union{Char, String}, Union{Char, String}}(
+        "euler" => "Euler",
+        "gamma" => "Gamma",
         "log" => "Log",
-        "polylog" => "PolyLog",
-        "polyLog" => "PolyLog",
-        "sqrt" => "Sqrt",
         "pi" => "Pi",
+        "poly" => "Poly",
+        "sqrt" => "Sqrt",
+        "zeta" => "Zeta",
     )
 
     for (key, value) ∈ Mathematica_replace_dict
