@@ -3,6 +3,8 @@
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
 
+include("run_FORM.jl")
+
 __λ(x, y, z) = x^2 + y^2 + z^2 - 2 * x * y - 2 * y * z - 2 * z * x # Källén triangle function
 
 function __read_Mathematica_output(file::String)
@@ -25,4 +27,22 @@ function __read_Mathematica_output(file::String)
     return output_str
 end
 
-include("run_FORM.jl")
+function __export_Mathematica_output(expr::Union{String, Basic})::String
+    expr_str = string(expr)
+
+    Mathematica_replace_dict = Dict{Union{Char, String}, Union{Char, String}}(
+        '(' => '[', ')' => ']',
+        "log" => "Log",
+        "polylog" => "PolyLog",
+        "polyLog" => "PolyLog",
+        "sqrt" => "Sqrt",
+        "pi" => "Pi",
+        "eulergamma" => "EulerGamma",
+    )
+
+    for (key, value) in Mathematica_replace_dict
+        expr_str = replace(expr_str, key => value)
+    end
+
+    return expr_str
+end
