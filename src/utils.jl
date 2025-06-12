@@ -31,18 +31,47 @@ function __export_Mathematica_output(expr::Union{String, Basic})::String
     expr_str = string(expr)
 
     Mathematica_replace_dict = Dict{Union{Char, String}, Union{Char, String}}(
-        '(' => '[', ')' => ']',
         "log" => "Log",
         "polylog" => "PolyLog",
         "polyLog" => "PolyLog",
         "sqrt" => "Sqrt",
         "pi" => "Pi",
-        "eulergamma" => "EulerGamma",
     )
 
-    for (key, value) in Mathematica_replace_dict
+    for (key, value) ∈ Mathematica_replace_dict
         expr_str = replace(expr_str, key => value)
     end
+
+    new_expr = Basic(expr_str)
+    expr_str = string(new_expr)
+    function_names = map(get_name, function_symbols(new_expr))
+    for function_name ∈ function_names
+        positions = findall(function_name, expr_str)
+        for position ∈ positions
+            ii = last(position) + 1
+            expr_str[ii] == '[' && continue
+            @assert expr_str[ii] == '('
+
+            counter = 0
+            while true
+                if expr_str[ii] ∈ ['(', '[']
+                    counter += 1
+                elseif expr_str[ii] ∈ [')', ']']
+                    counter -= 1
+                end
+
+                counter == 0 && break
+                ii += 1
+            end
+
+            expr_str = replace(expr_str,
+                expr_str[first(position):ii] =>
+                    expr_str[position] * '[' * expr_str[last(position)+2:ii-1] * ']'
+            )
+        end
+    end
+
+    expr_str = replace(expr_str, "eulergamma" => "EulerGamma")
 
     return expr_str
 end
